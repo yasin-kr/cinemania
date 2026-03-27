@@ -1,34 +1,47 @@
+/* modern normalize */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/3.0.1/modern-normalize.min.css');
+/* fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+header,
+footer,
+span,
+div,
+nav,
+svg,
+img,
+ul,
+li,
 h1,
 h2,
 h3,
 h4,
 h5,
 h6,
+a,
 p {
-  margin: 0;
-}
-
-p:last-child {
-  margin-bottom: 0;
-}
-
-ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-a {
-  color: currentColor;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
   text-decoration: none;
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
 }
-
-button {
-  cursor: pointer;
-}
-
-img {
-  display: block;
-  max-width: 100%;
-  height: auto;
+body {
+  background-color: var(--black);
+  color: var(--white);
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  text-decoration: none;
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
 }
