@@ -1,3 +1,24 @@
-<div class="catalog">
+<div class="searcher">
+  <form class="searcher__form" id="searchForm" autocomplete="off">
+    <div class="searcher__input-wrapper">
+      <input
+        class="searcher__input"
+        type="text"
+        id="searchInput"
+        placeholder="Search..."
+      />
+      <button class="searcher__clear" type="button" id="clearBtn" hidden>✕</button>
+    </div>
+    
+    <select class="searcher__year" id="yearSelect">
+      <option value="">Year</option>
+    </select>
 
+    <button class="searcher__submit" type="submit">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="8.5" cy="8.5" r="6.5" stroke="currentColor" stroke-width="2"/>
+        <path d="M13.5 13.5L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </form>
 </div>
