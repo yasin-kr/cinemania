@@ -7,12 +7,9 @@ const OVERVIEW_MAX_LENGTH = 192;
 let currentHeroMovie = null;
 let isLibraryHero = false;
 
-
-document.addEventListener("DOMContentLoaded", initHero);
-
 window.addEventListener("resize", handleHeroResize);
 
-async function initHero() {
+export async function initHero() {
   const hero = document.getElementById("hero");
 
   if (!hero) return;

@@ -1,10 +1,8 @@
-
-
-document.addEventListener("DOMContentLoaded", () => {
+export function initHeader() {
   setActiveLink();
   initMenuToggle();
   initThemeToggle();
-});
+}
 
 
 function setActiveLink() {
