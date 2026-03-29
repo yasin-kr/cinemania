@@ -2,6 +2,7 @@
 /*catalog ve footer css importlari*/
 @import url('./reset.css');
 @import url('./base.css');
+@import url('./upcoming.css');
 @import url('./container.css');
 @import url('./header.css');
 @import url('./hero.css');
