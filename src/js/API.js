@@ -3,6 +3,10 @@ import axios from 'axios';
 // CONFIG
 // API anahtarını sabit yazmak yerine .env içinden alıyoruz.
 const API_KEY = import.meta.env.VITE_TMDB_KEY;
+export const TMDB_CONFIG_ERROR =
+  'TMDB live data is unavailable because VITE_TMDB_KEY is missing.';
+export const hasTmdbKey = () => Boolean(API_KEY);
+export const getApiKey = () => API_KEY;
 
 const api = axios.create({
   baseURL: 'https://api.themoviedb.org/3',
@@ -12,8 +16,8 @@ const api = axios.create({
 const fetchData = async (url, params = {}) => {
   try {
     // Ortam değişkeni eksikse istek atmadan önce net hata veriyoruz.
-    if (!API_KEY) {
-      throw new Error('Missing VITE_TMDB_KEY in environment variables');
+    if (!hasTmdbKey()) {
+      throw new Error(TMDB_CONFIG_ERROR);
     }
 
     const response = await api.get(url, {

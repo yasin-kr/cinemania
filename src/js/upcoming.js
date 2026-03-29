@@ -1,4 +1,5 @@
-const API_KEY = import.meta.env.VITE_TMDB_KEY;
+import { getApiKey, hasTmdbKey, TMDB_CONFIG_ERROR } from './API.js';
+
 const BASE_URL = 'https://api.themoviedb.org/3';
 const IMG_URL = 'https://image.tmdb.org/t/p/original';
 
@@ -20,11 +21,11 @@ function getUpcomingElements() {
 async function fetchGenres() {
   try {
     // Upcoming akışı da ortak .env anahtarını kullanıyor.
-    if (!API_KEY) {
-      throw new Error('Missing VITE_TMDB_KEY in environment variables');
+    if (!hasTmdbKey()) {
+      throw new Error(TMDB_CONFIG_ERROR);
     }
 
-    const res = await fetch(`${BASE_URL}/genre/movie/list?api_key=${API_KEY}`);
+    const res = await fetch(`${BASE_URL}/genre/movie/list?api_key=${getApiKey()}`);
     const data = await res.json();
 
     data.genres.forEach(g => {
@@ -38,16 +39,19 @@ async function fetchGenres() {
 async function fetchUpcoming(elements) {
   try {
     // Anahtar eksikse burada da sessiz bozulma yerine görünür hata veriyoruz.
-    if (!API_KEY) {
-      throw new Error('Missing VITE_TMDB_KEY in environment variables');
+    if (!hasTmdbKey()) {
+      throw new Error(TMDB_CONFIG_ERROR);
     }
 
-    const res = await fetch(`${BASE_URL}/movie/upcoming?api_key=${API_KEY}`);
+    const res = await fetch(`${BASE_URL}/movie/upcoming?api_key=${getApiKey()}`);
     const data = await res.json();
 
     const movie = data?.results?.[0];
 
-    if (!movie) return;
+    if (!movie) {
+      renderUpcomingStatus(elements, 'No upcoming movie is available right now.');
+      return;
+    }
 
     const {
       titleEl,
@@ -78,6 +82,7 @@ async function fetchUpcoming(elements) {
       : 'https://via.placeholder.com/800x450';
   } catch (error) {
     console.error('Upcoming error:', error);
+    renderUpcomingStatus(elements, 'Unable to load upcoming movies right now.');
   }
 }
 
@@ -89,6 +94,20 @@ export async function initUpcoming() {
     return;
   }
 
+  if (!hasTmdbKey()) {
+    renderUpcomingStatus(elements, TMDB_CONFIG_ERROR);
+    return;
+  }
+
   await fetchGenres();
   await fetchUpcoming(elements);
+}
+
+function renderUpcomingStatus(elements, message) {
+  const { titleEl, overviewEl, imgEl } = elements;
+
+  titleEl.textContent = 'Live data unavailable';
+  overviewEl.textContent = message;
+  imgEl.removeAttribute('src');
+  imgEl.alt = 'Live data unavailable';
 }

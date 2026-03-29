@@ -1,6 +1,11 @@
 //API'den haftalık trend filmleri çekip, tür id'lerini tür isimlerine çeviren ve her bir film için popup açan fonksiyonları içeren dosya.
 // Haftalık trend verisini çeker ve kartları ekrana basar.
-import { getTrending, convertGenreIdsToNames } from './API.js';
+import {
+  getTrending,
+  convertGenreIdsToNames,
+  hasTmdbKey,
+  TMDB_CONFIG_ERROR,
+} from './API.js';
 // Kart tıklanınca film detay modalını açar.
 import { showMovieSpotlight } from './movie-spotlight.js';
 // Haftalık trend filmleri çekme ve popup açma
@@ -12,16 +17,27 @@ const weeklyMovie = document.querySelector('#weekly-movie');
 export async function initWeeklyTrends() {
   if (!weeklyMovie) return;
 
+  if (!hasTmdbKey()) {
+    renderWeeklyStatus(TMDB_CONFIG_ERROR);
+    return;
+  }
+
   try {
     const data = await getTrending('week');
     renderWeekly(data.results);
   } catch (error) {
     console.error('Weekly Trends Error:', error);
+    renderWeeklyStatus('Unable to load weekly trends right now.');
   }
 }
 
 // Gelen film listesinden kart HTML yapısını oluşturur.
 async function renderWeekly(movies) {
+  if (!movies?.length) {
+    renderWeeklyStatus('No weekly trends are available right now.');
+    return;
+  }
+
   const markup = await Promise.all(
     movies.slice(0, 5).map(async movie => {
       // Tür id'lerini okunabilir tür isimlerine çevirir.
@@ -39,6 +55,10 @@ async function renderWeekly(movies) {
   weeklyMovie.innerHTML = markup.join('');
 
   addCardListeners();
+}
+
+function renderWeeklyStatus(message) {
+  weeklyMovie.innerHTML = `<p class="weekly-status">${message}</p>`;
 }
 
 // Kart tıklamasından film id'sini alıp ilgili modalı açar.

@@ -89,6 +89,11 @@
     margin-bottom: 24px;
 }
 
+.hero__status {
+    max-width: 32rem;
+    color: rgba(255, 255, 255, 0.88);
+}
+
 @media (min-width: 1280px) {
     .hero__overview {
         font-size: 16px;
