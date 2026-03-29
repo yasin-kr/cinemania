@@ -17,8 +17,9 @@
 
 /* Modalın ana kutusu; poster ve içerik bu alan içinde yer alır. */
 .spotlight-shell {
+  --spotlight-shell-width: 846px;
   position: relative;
-  width: min(100%, 846px);
+  width: min(100%, var(--spotlight-shell-width));
   display: grid;
   gap: 24px;
   padding: 48px 20px 40px;
@@ -63,6 +64,42 @@
   display: grid;
   align-content: start;
   gap: 20px;
+}
+
+/* Trailer popup'ı detay popup ile aynı dış genişlik referansını kullanır. */
+.spotlight-shell--trailer {
+  width: min(100%, var(--spotlight-shell-width));
+  grid-template-columns: 1fr;
+  align-items: center;
+  justify-items: center;
+  min-height: 0;
+  max-height: min(88vh, 760px);
+  padding: 48px 20px 40px;
+}
+
+/* Trailer içeriğini tek kolonlu ve ortalı tutuyoruz. */
+.spotlight-content--trailer {
+  width: 100%;
+  display: grid;
+  place-items: center;
+}
+
+/* Video kutusunu popup içinde büyütüp ortada sabitliyoruz. */
+.spotlight-trailer-frame-wrap {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #000;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+}
+
+.spotlight-trailer-frame {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  display: block;
 }
 
 /* Film başlığı. */
@@ -171,14 +208,34 @@
 
 /* Tablet ve üstünde modalı iki kolonlu yapıya geçirir. */
 @media screen and (min-width: 768px) {
-  .spotlight-shell {
+  /* Detay popup'ı tablet ve üstünde iki kolonlu çalışır. */
+  .spotlight-shell:not(.spotlight-shell--trailer) {
     grid-template-columns: minmax(280px, 375px) 1fr;
     align-items: start;
     gap: 32px;
     padding: 52px 24px 40px;
   }
 
+  /* Trailer popup'ı ise aynı breakpoint'te tek kolonlu kalır. */
+  .spotlight-shell--trailer {
+    grid-template-columns: 1fr;
+    align-items: center;
+    justify-items: center;
+  }
+
   .spotlight-title {
     font-size: 32px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .spotlight-shell--trailer {
+    min-height: auto;
+    padding: 52px 16px 20px;
+    border-radius: 18px;
+  }
+
+  .spotlight-trailer-frame-wrap {
+    width: 100%;
   }
 }

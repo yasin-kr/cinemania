@@ -1,4 +1,6 @@
-import { getMovieDetails } from './API.js';
+import { getMovieDetails, getMovieVideos } from './API.js';
+
+// More details ve Watch trailer popup'ları bu modül içinden yönetiliyor.
 
 // Modalın DOM içinde tekil olarak bulunabilmesi için kullanılan id.
 const OVERLAY_ID = 'movie-spotlight-overlay';
@@ -6,6 +8,7 @@ const OVERLAY_ID = 'movie-spotlight-overlay';
 const SAVED_MOVIES_KEY = 'cinemania-saved-movies';
 
 // Vote / Votes alanındaki küçük kutucuklu yapıyı üretir.
+// More details için oy bilgisini ortak bir yapıda üretir.
 function buildVoteMarkup(voteAverage, voteCount) {
   const averageValue = voteAverage ? voteAverage.toFixed(1) : 'N/A';
   const totalVotes = voteCount ?? 0;
@@ -67,6 +70,27 @@ function createSpotlightMarkup(movie) {
         <button class="spotlight-library-button" type="button" data-movie-id="${movie.id}">
           ${buttonLabel}
         </button>
+      </div>
+    </div>
+  `;
+}
+
+// Watch trailer için yalnızca videoyu gösteren sade popup yapısını üretir.
+function createTrailerMarkup(movie, trailerKey) {
+  return `
+    <div class="spotlight-shell spotlight-shell--trailer" role="dialog" aria-modal="true" aria-labelledby="spotlight-trailer-title">
+      <button class="spotlight-close" type="button" aria-label="Close trailer">&times;</button>
+      <div class="spotlight-content spotlight-content--trailer">
+        <div class="spotlight-trailer-frame-wrap">
+          <iframe
+            class="spotlight-trailer-frame"
+            src="https://www.youtube.com/embed/${trailerKey}?autoplay=1"
+            title="${movie.title} trailer"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+          ></iframe>
+        </div>
       </div>
     </div>
   `;
@@ -172,5 +196,48 @@ export async function showMovieSpotlight(movieId) {
     attachSpotlightEvents(overlayElement, movie);
   } catch (error) {
     console.error('Movie spotlight error:', error);
+  }
+}
+
+// Hero içindeki fragman butonu bu akışla aynı overlay içinde video açar.
+export async function showMovieTrailerSpotlight(movieId) {
+  removeSpotlight();
+
+  try {
+    const [movie, videoData] = await Promise.all([
+      getMovieDetails(movieId),
+      getMovieVideos(movieId),
+    ]);
+    const videos = videoData?.results || [];
+    const trailer =
+      videos.find(
+        video =>
+          video.site === 'YouTube' &&
+          video.type === 'Trailer' &&
+          video.official
+      ) ||
+      videos.find(
+        video => video.site === 'YouTube' && video.type === 'Trailer'
+      ) ||
+      videos.find(video => video.site === 'YouTube');
+
+    // Önce resmi trailer'ı, yoksa diğer YouTube videolarını yedek olarak kullanıyoruz.
+    if (!trailer?.key) {
+      console.warn('Movie trailer error: no YouTube trailer found', movieId);
+      return;
+    }
+
+    const overlayElement = document.createElement('div');
+
+    overlayElement.id = OVERLAY_ID;
+    overlayElement.className = 'spotlight-backdrop';
+    overlayElement.innerHTML = createTrailerMarkup(movie, trailer.key);
+
+    document.body.appendChild(overlayElement);
+    document.body.classList.add('spotlight-open');
+
+    attachSpotlightEvents(overlayElement);
+  } catch (error) {
+    console.error('Movie trailer error:', error);
   }
 }

@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 // CONFIG
-const API_KEY = '163542112cf15bca1d68bf0de03b2c75';
+// API anahtarını sabit yazmak yerine .env içinden alıyoruz.
+const API_KEY = import.meta.env.VITE_TMDB_KEY;
 
 const api = axios.create({
   baseURL: 'https://api.themoviedb.org/3',
@@ -10,6 +11,11 @@ const api = axios.create({
 // GENERIC REQUEST
 const fetchData = async (url, params = {}) => {
   try {
+    // Ortam değişkeni eksikse istek atmadan önce net hata veriyoruz.
+    if (!API_KEY) {
+      throw new Error('Missing VITE_TMDB_KEY in environment variables');
+    }
+
     const response = await api.get(url, {
       params: {
         api_key: API_KEY,
@@ -28,6 +34,7 @@ export const getTrending = (timeWindow = 'day') =>
   fetchData(`/trending/movie/${timeWindow}`);
 
 // TRENDING PAGED
+// Catalog tarafındaki sayfalama akışı için haftalık trend verisini sayfa parametresiyle çekiyoruz.
 export const getTrendingPaged = (page = 1, timeWindow = 'week') =>
   fetchData(`/trending/movie/${timeWindow}`, { page });
 

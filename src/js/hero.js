@@ -1,4 +1,5 @@
 import { getTrending } from "./API.js";
+import { showMovieSpotlight, showMovieTrailerSpotlight } from './movie-spotlight.js';
 
 
 const MOBILE_TABLET_MAX_WIDTH = 1279;
@@ -7,6 +8,7 @@ const OVERVIEW_MAX_LENGTH = 192;
 let currentHeroMovie = null;
 let isLibraryHero = false;
 
+// Ekran boyutu değiştiğinde hero içeriğini mevcut moda göre yeniden kuruyoruz.
 window.addEventListener("resize", handleHeroResize);
 
 export async function initHero() {
@@ -14,6 +16,7 @@ export async function initHero() {
 
   if (!hero) return;
 
+  // Library sayfasında hero farklı içerikle çalıştığı için ayrı akışa giriyoruz.
   if (window.location.pathname.toLowerCase().includes("library")) {
     isLibraryHero = true;
     renderLibraryHero();
@@ -117,6 +120,9 @@ function renderHero(movie) {
       </div>
     </div>
   `;
+
+  // Hero render edildikten sonra butonları popup ve trailer akışına bağlıyoruz.
+  attachHeroSpotlightEvents(movie.id);
 }
 
 function generateStarIcons(rating) {
@@ -176,4 +182,23 @@ function renderLibraryHero() {
       </div>
     </div>
   `;
+}
+
+function attachHeroSpotlightEvents(movieId) {
+  const hero = document.getElementById('hero');
+
+  if (!hero || !movieId) return;
+
+  const trailerButton = hero.querySelector('.btn--primary');
+  const detailsButton = hero.querySelector('.btn--secondary');
+
+  // Watch trailer butonu aynı sayfa içinde video popup'ını açar.
+  trailerButton?.addEventListener('click', () => {
+    showMovieTrailerSpotlight(movieId);
+  });
+
+  // More details butonu detay popup'ını açar.
+  detailsButton?.addEventListener('click', () => {
+    showMovieSpotlight(movieId);
+  });
 }
