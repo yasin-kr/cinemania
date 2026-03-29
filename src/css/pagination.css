@@ -1,0 +1,83 @@
+/* sayfa siralamasi */
+
+/* Mobil */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  padding: 24px 0;
+  flex-wrap: wrap;
+}
+
+.pagination__btn {
+  min-width: 32px;
+  height: 32px;
+  padding: 0 8px;
+  background: transparent;
+  border: 1px solid var(--grey-white-theme);
+  border-radius: 50%;
+  color: var(--grey);
+  font-size: 13px;
+  font-family: 'Roboto', sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pagination__btn:hover:not(:disabled) {
+  border-color: var(--orange);
+  color: var(--white);
+}
+
+.pagination__btn.active {
+  background: var(--gradient-primary);
+  border-color: transparent;
+  color: var(--white);
+  font-weight: 700;
+}
+
+.pagination__btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.pagination__dots {
+  color: var(--grey);
+  font-size: 13px;
+  padding: 0 2px;
+  user-select: none;
+}
+
+/* Tablet */
+@media only screen and (min-width: 768px) {
+  .pagination {
+    gap: 8px;
+    padding: 32px 0;
+  }
+
+  .pagination__btn {
+    min-width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+
+  .pagination__dots {
+    font-size: 14px;
+  }
+}
+
+/* Desktop */
+@media only screen and (min-width: 1280px) {
+  .pagination {
+    gap: 12px;
+    padding: 48px 0;
+  }
+
+  .pagination__btn {
+    min-width: 40px;
+    height: 40px;
+    font-size: 15px;
+  }
+}
