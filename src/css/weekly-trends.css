@@ -1,0 +1,136 @@
+/* SECTION */
+.weekly-trends {
+  padding: 20px;
+}
+
+/* HEADER */
+.weekly-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.weekly-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--white);
+  text-transform: uppercase;
+}
+
+.weekly-description {
+  font-size: 14px;
+  color: var(--orange);
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.weekly-description:hover {
+  opacity: 0.7;
+}
+
+/* CARD CONTAINER */
+.weekly-card {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 20px;
+  overflow-x: auto;
+  width: 280px;
+  margin: 0 auto;
+}
+
+/* MOVIE CARD */
+.movie-card {
+  flex: 0 0 280px;
+  max-width: 280px;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.movie-card:hover {
+  transform: scale(1.03);
+}
+
+/* IMAGE */
+.movie-card img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  display: block;
+}
+
+/* OVERLAY */
+.movie-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.2));
+}
+
+/* INFO */
+.movie-info {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  z-index: 2;
+}
+
+/* TITLE */
+.movie-info h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 6px;
+}
+
+/* META */
+.movie-info p {
+  font-size: 12px;
+  color: var(--light-gray);
+  margin-bottom: 6px;
+}
+
+/* RATING */
+.movie-rating {
+  color: var(--orange);
+  font-size: 14px;
+}
+
+/* TABLET */
+
+@media screen and (min-width: 768px) {
+  .weekly-card {
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  .movie-card {
+    flex: 0 0 calc((100% - 40px) / 3);
+    max-width: calc((100% - 40px) / 3);
+  }
+
+  .movie-card img {
+    height: auto;
+    aspect-ratio: 224 / 325;
+  }
+}
+
+/* DESKTOP */
+
+@media screen and (min-width: 1280px) {
+  .movie-card {
+    flex: 0 0 calc((100% - 40px) / 3);
+    max-width: calc((100% - 40px) / 3);
+  }
+
+  .movie-card img {
+    height: auto;
+    aspect-ratio: 395 / 574;
+  }
+}
