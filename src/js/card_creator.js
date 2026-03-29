@@ -1,3 +1,5 @@
+import { showMovieSpotlight } from './movie-spotlight.js';
+
 const IMG_BASE = 'https://image.tmdb.org/t/p/w500';
 const FALLBACK = './img/oops-logo.png';
 
@@ -22,6 +24,10 @@ export function createMovieCard(movie, genreNames) {
   const li = document.createElement('li');
   li.className = 'movie-card';
   li.dataset.id = movie.id;
+  // Ortak kart yapısını kullanan sayfalarda karta tıklanınca detay popup'ı açıyoruz.
+  li.addEventListener('click', () => {
+    showMovieSpotlight(movie.id);
+  });
 // yildizlar hos olmadi bakilacak. 
   li.innerHTML =
     '<img class="movie-card__poster" src="' + poster + '" alt="' + movie.title + '" loading="lazy" onerror="this.src=\'' + FALLBACK + '\'">' +

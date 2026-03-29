@@ -1,9 +1,10 @@
-const API_KEY = '163542112cf15bca1d68bf0de03b2c75';
+const API_KEY = import.meta.env.VITE_TMDB_KEY;
 const BASE_URL = 'https://api.themoviedb.org/3';
 const IMG_URL = 'https://image.tmdb.org/t/p/original';
 
 let genresMap = {};
 
+// Upcoming bölümü sadece ilgili elemanlar varsa çalışsın diye DOM referanslarını tek yerden topluyoruz.
 function getUpcomingElements() {
   return {
     titleEl: document.querySelector('.movie-title'),
@@ -18,6 +19,11 @@ function getUpcomingElements() {
 
 async function fetchGenres() {
   try {
+    // Upcoming akışı da ortak .env anahtarını kullanıyor.
+    if (!API_KEY) {
+      throw new Error('Missing VITE_TMDB_KEY in environment variables');
+    }
+
     const res = await fetch(`${BASE_URL}/genre/movie/list?api_key=${API_KEY}`);
     const data = await res.json();
 
@@ -31,6 +37,11 @@ async function fetchGenres() {
 
 async function fetchUpcoming(elements) {
   try {
+    // Anahtar eksikse burada da sessiz bozulma yerine görünür hata veriyoruz.
+    if (!API_KEY) {
+      throw new Error('Missing VITE_TMDB_KEY in environment variables');
+    }
+
     const res = await fetch(`${BASE_URL}/movie/upcoming?api_key=${API_KEY}`);
     const data = await res.json();
 
@@ -73,6 +84,7 @@ async function fetchUpcoming(elements) {
 export async function initUpcoming() {
   const elements = getUpcomingElements();
 
+  // Bölüm ilgili sayfada yoksa script hiçbir şey yapmadan çıkar.
   if (Object.values(elements).some(element => !element)) {
     return;
   }
