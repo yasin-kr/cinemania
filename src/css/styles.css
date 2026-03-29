@@ -1,11 +1,13 @@
-/* Projede kullanılan temel reset ve ortak stiller. */
+
+/*catalog ve footer css importlari*/
 @import url('./reset.css');
 @import url('./base.css');
+@import url('./upcoming.css');
 @import url('./container.css');
-/* Film detay modalının stilleri. */
-@import url('./movie-spotlight.css');
-/* Weekly Trends bölümünün kart ve layout stilleri. */
 @import url('./header.css');
 @import url('./hero.css');
 @import url('./hero-modal.css');
-@import url('./weekly-trends.css');
+@import url('./searcher.css');
+@import url('./catalog.css');
+@import url('./footer.css');
+@import url('./pagination.css');

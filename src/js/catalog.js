@@ -1,31 +1,22 @@
-import {
-  getTrendingPaged,
-  searchMovies,
-  convertGenreIdsToNames,
-} from './API.js';
+import { initHeader } from './header.js';
+import { initHero } from './hero.js';
+import { getTrendingPaged, searchMovies, convertGenreIdsToNames } from './API.js';
 import { renderMovies } from './card_creator.js';
 import './footer.js';
 
 // D0m elementleri
-var movieGrid,
-  oopsMessage,
-  pagination,
-  searchForm,
-  searchInput,
-  clearBtn,
-  yearSelect;
+var movieGrid, oopsMessage, pagination, searchForm, searchInput, clearBtn, yearSelect;
 
 // Durum değiskenleri
 var currentPage = 1;
-var totalPages = 1;
+var totalPages  = 1;
 var searchQuery = '';
-var searchYear = '';
+var searchYear  = '';
 var isSearching = false;
 
 // Loader göster
 function showLoader() {
-  movieGrid.innerHTML =
-    '<li class="loader"><div class="loader__spinner"></div></li>';
+  movieGrid.innerHTML = '<li class="loader"><div class="loader__spinner"></div></li>';
   oopsMessage.classList.add('hidden');
 }
 
@@ -45,7 +36,7 @@ function buildPagination(current, total) {
 
   if (total <= 1) return;
 
-  // Tmdm max 20 sf goster
+  // Tmdm max 20 sf goster 
   var maxPage = Math.min(total, 20);
 
   // Önceki ok
@@ -53,14 +44,12 @@ function buildPagination(current, total) {
   prev.className = 'pagination__btn';
   prev.textContent = '←';
   prev.disabled = current === 1;
-  prev.addEventListener('click', function () {
-    changePage(current - 1);
-  });
+  prev.addEventListener('click', function() { changePage(current - 1); });
   pagination.appendChild(prev);
 
   // Sayfa numaraları
   var pages = getPageRange(current, maxPage);
-  pages.forEach(function (p) {
+  pages.forEach(function(p) {
     if (p === '...') {
       var dots = document.createElement('span');
       dots.className = 'pagination__dots';
@@ -73,9 +62,7 @@ function buildPagination(current, total) {
     btn.className = 'pagination__btn';
     btn.textContent = p;
     if (p === current) btn.classList.add('active');
-    btn.addEventListener('click', function () {
-      changePage(p);
-    });
+    btn.addEventListener('click', function() { changePage(p); });
     pagination.appendChild(btn);
   });
 
@@ -84,14 +71,12 @@ function buildPagination(current, total) {
   next.className = 'pagination__btn';
   next.textContent = '→';
   next.disabled = current === maxPage;
-  next.addEventListener('click', function () {
-    changePage(current + 1);
-  });
+  next.addEventListener('click', function() { changePage(current + 1); });
   pagination.appendChild(next);
 }
 
 // Hangi sayfa numaraları gösterilecek
-// ya da bunu button lst mi alsaydim bakilcak
+// ya da bunu button lst mi alsaydim bakilcak 
 
 function getPageRange(current, total) {
   if (total <= 7) {
@@ -130,14 +115,14 @@ function scrollToCatalog() {
   }
 }
 
-// trend filmleri yükle ama urlde yoksa napacaksin ona bi bak
+// trend filmleri yükle ama urlde yoksa napacaksin ona bi bak 
 async function loadTrending(page) {
   showLoader();
 
   try {
     var data = await getTrendingPaged(page);
     currentPage = page;
-    totalPages = data.total_pages;
+    totalPages  = data.total_pages;
 
     if (!data.results || data.results.length === 0) {
       showOops(true);
@@ -155,14 +140,14 @@ async function loadTrending(page) {
   }
 }
 
-// arama sonuçlarını yükle kart stilini koruuuu dikkat
+// arama sonuçlarını yükle kart stilini koruuuu dikkat 
 async function loadSearch(query, page, year = '') {
   showLoader();
 
   try {
     var data = await searchMovies(query, page, year);
     currentPage = page;
-    totalPages = data.total_pages;
+    totalPages  = data.total_pages;
 
     if (!data.results || data.results.length === 0) {
       showOops(true);
@@ -180,20 +165,20 @@ async function loadSearch(query, page, year = '') {
   }
 }
 
-// listenerlar burada
+// listenerlar burada 
 
 document.addEventListener('DOMContentLoaded', function () {
   initHeader();
   initHero();
 
   // DOM elementlerini ata
-  movieGrid = document.getElementById('movieGrid');
+  movieGrid   = document.getElementById('movieGrid');
   oopsMessage = document.getElementById('oopsMessage');
-  pagination = document.getElementById('pagination');
-  searchForm = document.getElementById('searchForm');
+  pagination  = document.getElementById('pagination');
+  searchForm  = document.getElementById('searchForm');
   searchInput = document.getElementById('searchInput');
-  clearBtn = document.getElementById('clearBtn');
-  yearSelect = document.getElementById('yearSelect');
+  clearBtn    = document.getElementById('clearBtn');
+  yearSelect  = document.getElementById('yearSelect');
 
   var currentYear = new Date().getFullYear();
   for (var y = currentYear; y >= 1900; y--) {
@@ -204,12 +189,12 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // inputu izle x butonunu hide ya da show yap
-  searchInput.addEventListener('input', function () {
+  searchInput.addEventListener('input', function() {
     clearBtn.hidden = searchInput.value.trim() === '';
   });
 
   // temizle ve trend filmlere dön
-  clearBtn.addEventListener('click', function () {
+  clearBtn.addEventListener('click', function() {
     searchInput.value = '';
     yearSelect.value = '';
     clearBtn.hidden = true;
@@ -220,8 +205,8 @@ document.addEventListener('DOMContentLoaded', function () {
     loadTrending(1);
   });
 
-  // Arama formu gönderilince listeleme yapacakk
-  searchForm.addEventListener('submit', function (e) {
+  // Arama formu gönderilince listeleme yapacakk 
+  searchForm.addEventListener('submit', function(e) {
     e.preventDefault();
     var query = searchInput.value.trim();
     var year = yearSelect.value;
@@ -233,6 +218,6 @@ document.addEventListener('DOMContentLoaded', function () {
     loadSearch(query, 1, year);
   });
 
-  // bismillah
+  // bismillah 
   loadTrending(1);
 });

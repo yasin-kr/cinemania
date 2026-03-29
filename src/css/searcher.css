@@ -1,0 +1,119 @@
+/* texte gore arama */
+
+/* mobil */
+.searcher {
+  padding: 24px 0;
+}
+
+.searcher__form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.searcher__input-wrapper {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  background-color: var(--secondary-black);
+  border: 1px solid var(--grey-white-theme);
+  border-radius: 4px;
+  height: 44px;
+}
+
+.searcher__input-wrapper:focus-within {
+  border-color: var(--orange);
+}
+
+.searcher__input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 0 16px;
+  color: var(--white);
+  font-size: 14px;
+  font-family: 'Roboto', sans-serif;
+  height: 100%;
+}
+
+.searcher__input::placeholder {
+  color: var(--grey-white-theme);
+}
+
+.searcher__clear {
+  background: transparent;
+  border: none;
+  color: var(--grey);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0 10px;
+  height: 100%;
+}
+
+.searcher__clear:hover {
+  color: var(--white);
+}
+/*yila bak */
+.searcher__year {
+  background-color: var(--secondary-black);
+  border: 1px solid var(--grey-white-theme);
+  border-radius: 4px;
+  color: var(--white);
+  padding: 0 32px 0 16px;
+  height: 44px;
+  font-size: 14px;
+  font-family: 'Roboto', sans-serif;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg width='10' height='14' viewBox='0 0 10 14' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5 0L10 6H0L5 0Z' fill='%23b7b7b7'/%3E%3Cpath d='M5 14L0 8H10L5 14Z' fill='%23b7b7b7'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+.searcher__year:focus {
+  border-color: var(--orange);
+}
+
+.searcher__submit {
+  background: var(--gradient-primary);
+  border: none;
+  color: var(--white);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.searcher__submit:hover {
+  opacity: 0.85;
+}
+
+/* Tablet */
+@media only screen and (min-width: 768px) {
+  .searcher {
+    padding: 32px 0;
+  }
+
+  .searcher__input {
+    padding: 14px 20px;
+    font-size: 16px;
+  }
+
+  .searcher__submit {
+    padding: 14px 24px;
+  }
+}
+
+/* deslktop */
+@media only screen and (min-width: 1280px) {
+  .searcher {
+    padding: 40px 0;
+  }
+}
