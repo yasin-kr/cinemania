@@ -1,0 +1,180 @@
+
+
+/* mobil first   */
+.catalog-section {
+  padding-bottom: 40px;
+}
+
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.movie-card {
+  cursor: pointer;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: var(--secondary-black);
+}
+
+.movie-card:hover {
+  opacity: 0.85;
+}
+
+.movie-card__poster {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  display: block;
+}
+
+.movie-card__info {
+  padding: 8px 12px 12px;
+}
+
+
+
+.movie-card__title {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--white);
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.movie-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--grey);
+}
+
+.movie-card__genre {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.movie-card__year {
+  flex-shrink: 0;
+}
+
+.movie-card__stars {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+/* hata mesajı */
+.oops-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 60px 0;
+  color: var(--grey);
+  text-align: center;
+}
+
+.oops-message img {
+  width: 60px;
+  opacity: 0.5;
+}
+
+.oops-message p {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* loader  */
+.loader {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 0;
+}
+
+.loader__spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid var(--secondary-black);
+  border-top-color: var(--orange);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* son kontrol important kaldirilabilir bakalim */
+.hidden {
+  display: none !important;
+}
+
+/* tablet kirilimi */
+@media only screen and (min-width: 768px) {
+  .movie-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .movie-card__info {
+    padding: 10px 14px 14px;
+  }
+
+  .movie-card__title {
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+
+  .movie-card__meta {
+    font-size: 12px;
+    gap: 8px;
+  }
+
+  .movie-card__rating {
+    font-size: 11px;
+    padding: 2px 6px;
+  }
+
+  .oops-message img {
+    width: 80px;
+  }
+
+  .oops-message p {
+    font-size: 16px;
+  }
+}
+
+/* desktop last */
+@media only screen and (min-width: 1280px) {
+  .catalog-section {
+    padding-bottom: 60px;
+  }
+
+  .movie-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+  }
+
+  .movie-card__info {
+    padding: 12px 16px 16px;
+  }
+
+  .movie-card__title {
+    font-size: 16px;
+  }
+}

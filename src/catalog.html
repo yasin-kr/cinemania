@@ -1,10 +1,38 @@
 <!doctype html>
-<html lang="pl">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./css/styles.css" />
-    <title>Catalog</title>
+    <title>Cinemania — Catalog</title>
   </head>
-  <body></body>
+  <body>
+    <load src="./partials/header.html" />
+
+    <main>
+      <load src="./partials/hero.html" />
+
+      <section class="catalog-section">
+        <div class="container">
+
+          <load src="./partials/searcher.html" />
+
+          <ul class="movie-grid" id="movieGrid"></ul>
+
+          <div class="oops-message hidden" id="oopsMessage">
+            <img src="./img/oops-logo.png" alt="Sonuç bulunamadı" />
+            <p>We are very sorry!</p>
+            <p>You don't have any results matching your search.</p>
+          </div>
+
+          <div class="pagination" id="pagination"></div>
+
+        </div>
+      </section>
+    </main>
+
+    <load src="./partials/footer.html" />
+
+    <script type="module" src="./js/catalog.js"></script>
+  </body>
 </html>

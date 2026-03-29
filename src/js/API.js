@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // CONFIG
-const API_KEY = import.meta.env.VITE_TMDB_KEY;
+const API_KEY = '163542112cf15bca1d68bf0de03b2c75';
 
 const api = axios.create({
   baseURL: 'https://api.themoviedb.org/3',
@@ -27,14 +27,19 @@ const fetchData = async (url, params = {}) => {
 export const getTrending = (timeWindow = 'day') =>
   fetchData(`/trending/movie/${timeWindow}`);
 
+// TRENDING PAGED
+export const getTrendingPaged = (page = 1, timeWindow = 'week') =>
+  fetchData(`/trending/movie/${timeWindow}`, { page });
+
 // UPCOMING
 export const getUpcoming = () => fetchData('/movie/upcoming');
 
 // SEARCH
-export const searchMovies = (query, page = 1) =>
+export const searchMovies = (query, page = 1, year = '') =>
   fetchData('/search/movie', {
     query,
     page,
+    primary_release_year: year || undefined,
   });
 
 // MOVIE DETAILS
@@ -62,6 +67,3 @@ export const convertGenreIdsToNames = async genreIds => {
   return genreIds.map(id => genreMap.get(id) || 'Unknown');
 };
 
-getTrending().then(data => {
-  console.log(data.results);
-});
