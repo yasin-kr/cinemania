@@ -2,15 +2,19 @@ const API_KEY = '163542112cf15bca1d68bf0de03b2c75';
 const BASE_URL = 'https://api.themoviedb.org/3';
 const IMG_URL = 'https://image.tmdb.org/t/p/original';
 
-const titleEl = document.querySelector('.movie-title');
-const dateEl = document.querySelector('.upcoming-date');
-const voteEl = document.querySelector('.vote');
-const popularityEl = document.querySelector('.popularity');
-const genreEl = document.querySelector('.genre');
-const overviewEl = document.querySelector('.overview');
-const imgEl = document.querySelector('.movie-img');
-
 let genresMap = {};
+
+function getUpcomingElements() {
+  return {
+    titleEl: document.querySelector('.movie-title'),
+    dateEl: document.querySelector('.upcoming-date'),
+    voteEl: document.querySelector('.vote'),
+    popularityEl: document.querySelector('.popularity'),
+    genreEl: document.querySelector('.genre'),
+    overviewEl: document.querySelector('.overview'),
+    imgEl: document.querySelector('.movie-img'),
+  };
+}
 
 async function fetchGenres() {
   try {
@@ -25,7 +29,7 @@ async function fetchGenres() {
   }
 }
 
-async function fetchUpcoming() {
+async function fetchUpcoming(elements) {
   try {
     const res = await fetch(`${BASE_URL}/movie/upcoming?api_key=${API_KEY}`);
     const data = await res.json();
@@ -33,6 +37,16 @@ async function fetchUpcoming() {
     const movie = data?.results?.[0];
 
     if (!movie) return;
+
+    const {
+      titleEl,
+      dateEl,
+      voteEl,
+      popularityEl,
+      genreEl,
+      overviewEl,
+      imgEl,
+    } = elements;
 
     titleEl.textContent = movie.title ?? 'No title';
 
@@ -56,9 +70,13 @@ async function fetchUpcoming() {
   }
 }
 
-async function init() {
-  await fetchGenres();
-  await fetchUpcoming();
-}
+export async function initUpcoming() {
+  const elements = getUpcomingElements();
 
-init();
+  if (Object.values(elements).some(element => !element)) {
+    return;
+  }
+
+  await fetchGenres();
+  await fetchUpcoming(elements);
+}
