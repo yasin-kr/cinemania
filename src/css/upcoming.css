@@ -4,6 +4,7 @@
 
 /* Upcoming bölümünü sayfanın genel container düzeniyle hizalamak için scoped padding kullanıyoruz. */
 .upcoming .container {
+  /* Mobile'da upcoming basligi ve kartini weekly ile ayni merkez kolonda topluyoruz. */
   padding-left: 16px;
   padding-right: 16px;
 }
@@ -21,6 +22,8 @@
 .upcoming__wrapper {
   display: grid;
   gap: 24px;
+  width: 280px;
+  margin: 0 auto;
 }
 
 .upcoming__image {
@@ -71,6 +74,35 @@
   color: var(--white);
 }
 
+/* Release date degerini tasarimdaki vurguya uydurmak icin turuncu renkte gosteriyoruz. */
+.upcoming-date {
+  color: var(--orange) !important;
+}
+
+.vote {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.vote-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--white);
+  color: var(--black) !important;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.vote-separator {
+  color: var(--white);
+}
+
 .about-title {
   margin: 0;
   color: rgba(255, 255, 255, 0.6);
@@ -109,6 +141,10 @@
     padding-bottom: 72px;
   }
 
+  .upcoming .container {
+    max-width: 768px;
+  }
+
   .upcoming__title {
     margin-bottom: 28px;
     font-size: 24px;
@@ -118,6 +154,8 @@
     grid-template-columns: minmax(320px, 380px) 1fr;
     gap: 32px;
     align-items: start;
+    width: auto;
+    margin: 0;
   }
 
   .upcoming__image img {
@@ -144,7 +182,7 @@
 
 @media screen and (min-width: 1280px) {
   .upcoming {
-    padding-top: 68px;
+    padding-top: 40px;
     padding-bottom: 96px;
   }
 
@@ -152,6 +190,7 @@
   .upcoming .container {
     padding-left: 0;
     padding-right: 0;
+    max-width: 1200px;
   }
 
   .upcoming__title {

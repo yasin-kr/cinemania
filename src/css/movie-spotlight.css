@@ -229,6 +229,80 @@
 }
 
 @media screen and (max-width: 767px) {
+  /* Mobile gorunumde detay popup'ini figmadaki gibi dar ve ekrana sigan bir kolonda tutuyoruz. */
+  .spotlight-shell:not(.spotlight-shell--trailer) {
+    width: min(280px, calc(100vw - 40px));
+    gap: 20px;
+    padding: 44px 16px 24px;
+    border-radius: 16px;
+  }
+
+  .spotlight-close {
+    top: 16px;
+    right: 16px;
+    width: 20px;
+    height: 20px;
+    font-size: 26px;
+  }
+
+  .spotlight-poster-wrap {
+    border-radius: 8px;
+  }
+
+  .spotlight-content {
+    gap: 16px;
+  }
+
+  .spotlight-title {
+    font-size: 28px;
+    line-height: 1.18;
+  }
+
+  .spotlight-meta {
+    gap: 10px;
+  }
+
+  .spotlight-meta-row {
+    grid-template-columns: 96px 1fr;
+    gap: 8px 12px;
+  }
+
+  .spotlight-meta-label,
+  .spotlight-meta-value {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+
+  .spotlight-vote-pill {
+    min-width: 42px;
+    padding: 2px 6px;
+    font-size: 12px;
+  }
+
+  .spotlight-vote-separator {
+    margin: 0 6px;
+    font-size: 16px;
+  }
+
+  .spotlight-copy-block {
+    gap: 12px;
+  }
+
+  .spotlight-copy-title {
+    font-size: 18px;
+  }
+
+  .spotlight-overview {
+    font-size: 14px;
+    line-height: 1.43;
+  }
+
+  .spotlight-library-button {
+    min-width: 140px;
+    padding: 10px 20px;
+    font-size: 12px;
+  }
+
   .spotlight-shell--trailer {
     min-height: auto;
     padding: 52px 16px 20px;

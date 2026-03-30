@@ -1,5 +1,6 @@
 import { getTrending } from "./API.js";
 import { showMovieSpotlight, showMovieTrailerSpotlight } from './movie-spotlight.js';
+import { generateStarIconsMarkup } from './star-icons.js';
 
 
 const MOBILE_TABLET_MAX_WIDTH = 1279;
@@ -93,7 +94,7 @@ function renderHero(movie) {
   const rawRating = Math.round((movie.vote_average / 2) * 2) / 2; // 0.5'lik adımlarla yuvarla
   console.log("Movie rating:", movie.vote_average, "Rounded rating for stars:", rawRating);
 
-  const starHtml = generateStarIcons(rawRating);
+  const starHtml = generateStarIconsMarkup(rawRating, 'hero__star');
   console.log("Generated star HTML:", starHtml);
 
   hero.innerHTML = `
@@ -123,31 +124,6 @@ function renderHero(movie) {
 
   // Hero render edildikten sonra butonları popup ve trailer akışına bağlıyoruz.
   attachHeroSpotlightEvents(movie.id);
-}
-
-function generateStarIcons(rating) {
-  const maxStars = 5;
-  const fullStarCount = Math.floor(rating);
-  const halfStarCount = rating - fullStarCount >= 0.5 ? 1 : 0;
-  const emptyStarCount = maxStars - fullStarCount - halfStarCount;
-
-  
- 
-  let html = "";
-
-  for (let i = 0; i < fullStarCount; i++) {
-    html += `<img src="${getAssetUrl("full.svg")}" alt="full star" class="hero__star" />`;
-  }
-
-  if (halfStarCount > 0) {
-    html += `<img src="${getAssetUrl("half.svg")}" alt="half star" class="hero__star" />`;
-  }
-
-  for (let i = 0; i < emptyStarCount; i++) {
-    html += `<img src="${getAssetUrl("empty.svg")}" alt="empty star" class="hero__star" />`;
-  }
-
-  return html;
 }
 
 function renderLibraryHero() {

@@ -5,73 +5,103 @@
   padding-bottom: 40px;
 }
 
-.movie-grid {
+/* Catalog kartlarini weekly kartlariyla ayni boyut ve alt bilgi diline getiriyoruz. */
+.catalog-section .movie-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  grid-template-columns: 280px;
+  justify-content: center;
+  gap: 20px;
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.movie-card {
+.catalog-section .movie-card {
+  position: relative;
+  width: 100%;
+  max-width: none;
+  min-width: 0;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 16px;
   overflow: hidden;
   background-color: var(--secondary-black);
+  transition: transform 0.3s ease;
 }
 
-.movie-card:hover {
-  opacity: 0.85;
+.catalog-section .movie-card:hover {
+  transform: scale(1.03);
 }
 
-.movie-card__poster {
+.catalog-section .movie-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.92), rgba(0, 0, 0, 0.18));
+}
+
+.catalog-section .movie-card__poster {
   width: 100%;
-  aspect-ratio: 2 / 3;
+  aspect-ratio: 280 / 406;
   object-fit: cover;
   display: block;
 }
 
-.movie-card__info {
-  padding: 8px 12px 12px;
+.catalog-section .movie-card__info {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  z-index: 2;
+  padding: 0;
 }
 
-
-
-.movie-card__title {
-  font-size: 12px;
-  font-weight: 500;
+.catalog-section .movie-card__title {
+  font-size: 16px;
+  font-weight: 700;
   color: var(--white);
-  margin-bottom: 4px;
+  margin-bottom: 6px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.movie-card__meta {
+.catalog-section .movie-card__meta {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  color: var(--grey);
+  gap: 12px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.78);
 }
 
-.movie-card__genre {
-  flex: 1;
+.catalog-section .movie-card__text {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.catalog-section .movie-card__genre {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.movie-card__year {
+.catalog-section .movie-card__year {
   flex-shrink: 0;
 }
 
-.movie-card__stars {
+.catalog-section .movie-card__stars {
   display: flex;
   align-items: center;
   gap: 2px;
   flex-shrink: 0;
+  margin-left: auto;
+}
+
+.catalog-section .movie-card__star {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
 }
 
 /* hata mesajı */
@@ -126,28 +156,25 @@
 
 /* tablet kirilimi */
 @media only screen and (min-width: 768px) {
-  .movie-grid {
-    grid-template-columns: repeat(3, 1fr);
+  .catalog-section .movie-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 24px;
   }
 
-  .movie-card__info {
-    padding: 10px 14px 14px;
+  .catalog-section .movie-card {
+    width: 100%;
   }
 
-  .movie-card__title {
+  .catalog-section .movie-card__poster {
+    aspect-ratio: 224 / 325;
+  }
+
+  .catalog-section .movie-card__title {
     font-size: 14px;
-    margin-bottom: 6px;
   }
 
-  .movie-card__meta {
+  .catalog-section .movie-card__meta {
     font-size: 12px;
-    gap: 8px;
-  }
-
-  .movie-card__rating {
-    font-size: 11px;
-    padding: 2px 6px;
   }
 
   .oops-message img {
@@ -165,16 +192,16 @@
     padding-bottom: 60px;
   }
 
-  .movie-grid {
-    grid-template-columns: repeat(4, 1fr);
+  .catalog-section .movie-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 32px;
   }
 
-  .movie-card__info {
-    padding: 12px 16px 16px;
+  .catalog-section .movie-card {
+    width: 100%;
   }
 
-  .movie-card__title {
-    font-size: 16px;
+  .catalog-section .movie-card__poster {
+    aspect-ratio: 395 / 574;
   }
 }

@@ -19,6 +19,119 @@ body {
   margin: 0;
 }
 
+/* Light theme'de genel yuzeyleri acip sadece hero ve kart overlay metinlerini oldugu gibi birakiyoruz. */
+body.light-theme {
+  background-color: #ffffff;
+  color: #111111;
+}
+
+body.light-theme .header {
+  background-color: #ffffff;
+  border-bottom-color: rgba(17, 17, 17, 0.12);
+}
+
+body.light-theme .logo-text,
+body.light-theme .nav-link,
+body.light-theme .header__menu-btn {
+  color: #111111;
+}
+
+body.light-theme .mobile-nav {
+  background-color: #ffffff;
+  box-shadow: 2px 0 12px rgba(17, 17, 17, 0.12);
+}
+
+body.light-theme .weekly-title,
+body.light-theme .upcoming__title,
+body.light-theme .movie-title,
+body.light-theme .about-title,
+body.light-theme .meta,
+body.light-theme .meta span,
+body.light-theme .overview,
+body.light-theme .footer__copy,
+body.light-theme .modal__title,
+body.light-theme .modal__subtitle,
+body.light-theme .team-card__name,
+body.light-theme .team-card__role,
+body.light-theme .team-card__link,
+body.light-theme .spotlight-title,
+body.light-theme .spotlight-meta-label,
+body.light-theme .spotlight-meta-value,
+body.light-theme .spotlight-copy-title,
+body.light-theme .spotlight-overview,
+body.light-theme .spotlight-close,
+body.light-theme .searcher__input,
+body.light-theme .searcher__year,
+body.light-theme .oops-message,
+body.light-theme .pagination__btn {
+  color: #111111;
+}
+
+body.light-theme .footer {
+  background-color: #ffffff;
+}
+
+body.light-theme .modal,
+body.light-theme .team-card,
+body.light-theme .spotlight-shell,
+body.light-theme .searcher__input-wrapper,
+body.light-theme .searcher__year,
+body.light-theme .movie-card,
+body.light-theme .pagination__btn {
+  background-color: #ffffff;
+  border-color: rgba(17, 17, 17, 0.16);
+}
+
+body.light-theme .team-card {
+  box-shadow: 0 4px 18px rgba(17, 17, 17, 0.06);
+}
+
+body.light-theme .searcher__input::placeholder,
+body.light-theme .searcher__clear,
+body.light-theme .movie-card__meta,
+body.light-theme .footer__copy,
+body.light-theme .modal__subtitle,
+body.light-theme .team-card__role,
+body.light-theme .team-card__link,
+body.light-theme .spotlight-copy-title,
+body.light-theme .spotlight-meta-label {
+  color: rgba(17, 17, 17, 0.6);
+}
+
+body.light-theme .movie-card__title {
+  color: #111111;
+}
+
+/* Weekly kartlarindaki aciklama metnini tema degisiminde de gorsel ustunde okunur acik renkte tutuyoruz. */
+body.light-theme .weekly-trends .movie-info p {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+body.light-theme .spotlight-shell {
+  box-shadow: 0 12px 40px rgba(17, 17, 17, 0.12);
+}
+
+body.light-theme .spotlight-vote-separator,
+body.light-theme .vote-separator {
+  color: #111111;
+}
+
+body.light-theme .spotlight-vote-pill,
+body.light-theme .vote-pill {
+  background: #f6f6f6;
+  border: 1px solid rgba(17, 17, 17, 0.1);
+}
+
+body.light-theme .btn--primary,
+body.light-theme .upcoming .btn,
+body.light-theme .spotlight-library-button {
+  color: #111111;
+}
+
+body.light-theme .btn--secondary {
+  color: var(--orange);
+}
+
 main {
   flex-grow: 1;
 }
