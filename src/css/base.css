@@ -11,12 +11,19 @@
   --gradient-secondary: linear-gradient(135deg, #f84119, #f89f19);
 }
 
+html {
+  width: 100%;
+  overflow-x: clip;
+}
+
 body {
   display: flex;
   flex-direction: column;
-  min-width: 100vw;
+  width: 100%;
+  min-width: 320px;
   min-height: 100vh;
   margin: 0;
+  overflow-x: clip;
 }
 
 /* Light theme'de genel yuzeyleri acip sadece hero ve kart overlay metinlerini oldugu gibi birakiyoruz. */
@@ -71,6 +78,10 @@ body.light-theme .footer {
   background-color: #ffffff;
 }
 
+body.light-theme .footer__team-btn:hover {
+  color: #111111;
+}
+
 body.light-theme .modal,
 body.light-theme .team-card,
 body.light-theme .spotlight-shell,
@@ -98,6 +109,16 @@ body.light-theme .spotlight-meta-label {
   color: rgba(17, 17, 17, 0.6);
 }
 
+body.light-theme .modal__close,
+body.light-theme .spotlight-close {
+  color: #111111;
+}
+
+body.light-theme .modal__close:hover,
+body.light-theme .spotlight-close:hover {
+  color: #f84119;
+}
+
 body.light-theme .movie-card__title {
   color: #111111;
 }
@@ -105,6 +126,14 @@ body.light-theme .movie-card__title {
 /* Weekly kartlarindaki aciklama metnini tema degisiminde de gorsel ustunde okunur acik renkte tutuyoruz. */
 body.light-theme .weekly-trends .movie-info p {
   color: rgba(255, 255, 255, 0.8);
+}
+
+/* Catalog kartlarinda da metin gorsel ustundeki koyu overlay icinde kaldigi icin acik renkte kalmali. */
+body.light-theme .catalog-section .movie-card__title,
+body.light-theme .catalog-section .movie-card__meta,
+body.light-theme .catalog-section .movie-card__genre,
+body.light-theme .catalog-section .movie-card__year {
+  color: #ffffff;
 }
 
 body.light-theme .spotlight-shell {
@@ -130,6 +159,10 @@ body.light-theme .spotlight-library-button {
 
 body.light-theme .btn--secondary {
   color: var(--orange);
+}
+
+body.light-theme .searcher__submit {
+  color: #111111;
 }
 
 main {

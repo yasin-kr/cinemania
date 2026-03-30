@@ -11,11 +11,14 @@
 
 .upcoming__title {
   margin: 0 0 24px;
+  width: 280px;
   color: var(--white);
   font-size: 20px;
   font-weight: 600;
   line-height: 1.2;
   text-transform: uppercase;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Mobile'da tek kolon, büyük ekranlarda iki kolonlu figma düzenine geçiyoruz. */
@@ -143,19 +146,24 @@
   }
 
   .upcoming .container {
-    max-width: 768px;
+    max-width: 1200px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
   .upcoming__title {
     margin-bottom: 28px;
+    width: auto;
     font-size: 24px;
+    margin-left: 0;
+    margin-right: 0;
   }
 
   .upcoming__wrapper {
-    grid-template-columns: minmax(320px, 380px) 1fr;
+    grid-template-columns: minmax(320px, 380px) minmax(0, 1fr);
     gap: 32px;
     align-items: start;
-    width: auto;
+    width: 100%;
     margin: 0;
   }
 
@@ -199,7 +207,7 @@
   }
 
   .upcoming__wrapper {
-    grid-template-columns: minmax(600px, 805px) minmax(300px, 390px);
+    grid-template-columns: minmax(600px, 805px) minmax(300px, 1fr);
     gap: 32px;
   }
 
