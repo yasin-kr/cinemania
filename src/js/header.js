@@ -4,6 +4,8 @@ export function initHeader() {
   initThemeToggle();
 }
 
+const THEME_STORAGE_KEY = 'cinemania-theme';
+
 
 function setActiveLink() {
   const currentPath = window.location.pathname;
@@ -53,7 +55,18 @@ function initThemeToggle() {
 
   if (!toggle) return;
 
+  const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+  const shouldUseLightTheme = savedTheme === 'light';
+
+  document.body.classList.toggle('light-theme', shouldUseLightTheme);
+  toggle.classList.toggle('active', shouldUseLightTheme);
+
   toggle.addEventListener("click", () => {
-    toggle.classList.toggle("active");
+    const willUseLightTheme = !document.body.classList.contains('light-theme');
+
+    // Toggle durumunu body sinifina ve localStorage'a yazarak tum sayfalarda kalici hale getiriyoruz.
+    document.body.classList.toggle('light-theme', willUseLightTheme);
+    toggle.classList.toggle("active", willUseLightTheme);
+    localStorage.setItem(THEME_STORAGE_KEY, willUseLightTheme ? 'light' : 'dark');
   });
 }

@@ -111,7 +111,13 @@ function changePage(page) {
 function scrollToCatalog() {
   var section = document.querySelector('.catalog-section');
   if (section) {
-    section.scrollIntoView({ behavior: 'smooth' });
+    var header = document.querySelector('.header');
+    var headerHeight = header ? header.offsetHeight : 0;
+    // Catalog acildiginda arama alani gorunsun diye ustte bir miktar hero alani birakiyoruz.
+    var heroOffset = window.innerWidth >= 1280 ? 180 : window.innerWidth >= 768 ? 140 : 96;
+    var targetTop = Math.max(section.offsetTop - headerHeight - heroOffset, 0);
+
+    window.scrollTo({ top: targetTop, behavior: 'smooth' });
   }
 }
 

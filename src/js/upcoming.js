@@ -5,6 +5,24 @@ const IMG_URL = 'https://image.tmdb.org/t/p/original';
 
 let genresMap = {};
 
+function formatReleaseDate(dateString) {
+  if (!dateString) return '-';
+
+  const [year, month, day] = dateString.split('-');
+  return `${day}.${month}.${year}`;
+}
+
+function buildVoteMarkup(voteAverage, voteCount) {
+  const averageValue = voteAverage ? voteAverage.toFixed(1) : '0.0';
+  const totalVotes = voteCount ?? 0;
+
+  return `
+    <span class="vote-pill">${averageValue}</span>
+    <span class="vote-separator">/</span>
+    <span class="vote-pill">${totalVotes}</span>
+  `;
+}
+
 // Upcoming bölümü sadece ilgili elemanlar varsa çalışsın diye DOM referanslarını tek yerden topluyoruz.
 function getUpcomingElements() {
   return {
@@ -65,8 +83,9 @@ async function fetchUpcoming(elements) {
 
     titleEl.textContent = movie.title ?? 'No title';
 
-    dateEl.textContent = movie.release_date ?? '-';
-    voteEl.textContent = `${movie.vote_average ?? 0} / ${movie.vote_count ?? 0}`;
+    // Upcoming meta alanini figmadaki yapiya yaklastirmak icin tarihi formatlayip oy bilgisini kutucuklarla basiyoruz.
+    dateEl.textContent = formatReleaseDate(movie.release_date);
+    voteEl.innerHTML = buildVoteMarkup(movie.vote_average, movie.vote_count);
     popularityEl.textContent = Math.round(movie.popularity ?? 0);
 
     const genres = (movie.genre_ids || [])
