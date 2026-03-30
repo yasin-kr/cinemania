@@ -23,10 +23,11 @@
 }
 
 .weekly-description {
-  font-size: 14px;
   color: var(--orange);
   text-decoration: none;
   transition: 0.3s;
+  font-weight: 500;
+  font-size: 20px;
 }
 
 .weekly-description:hover {
@@ -66,10 +67,11 @@
 
 .movie-card:hover {
   transform: scale(1.03);
+  z-index: 3;
 }
 
 /* IMAGE */
-.movie-card img {
+.movie-card > img {
   width: 100%;
   height: auto;
   aspect-ratio: 2 / 3;
@@ -152,7 +154,8 @@
   .weekly-card {
     width: 100%;
     margin: 0;
-    overflow: hidden;
+    overflow: visible;
+    padding: 8px 0;
   }
 
   .movie-card {
@@ -160,7 +163,7 @@
     max-width: calc((100% - 40px) / 3);
   }
 
-  .movie-card img {
+  .movie-card > img {
     height: auto;
     aspect-ratio: 224 / 325;
   }
@@ -182,7 +185,7 @@
     max-width: calc((100% - 40px) / 3);
   }
 
-  .movie-card img {
+  .movie-card > img {
     height: auto;
     aspect-ratio: 395 / 574;
   }

@@ -5,9 +5,12 @@ import { generateStarIconsMarkup } from './star-icons.js';
 
 const MOBILE_TABLET_MAX_WIDTH = 1279;
 const OVERVIEW_MAX_LENGTH = 192;
+const DEFAULT_HOME_HERO_OVERVIEW =
+  "Is a guide to creating a personalized movie theater experience. You'll need a projector, screen, and speakers. Decorate your space, choose your films, and stock up on snacks for the full experience.";
 
 let currentHeroMovie = null;
 let isLibraryHero = false;
+let heroResizeRafId = null;
 
 // Ekran boyutu değiştiğinde hero içeriğini mevcut moda göre yeniden kuruyoruz.
 window.addEventListener("resize", handleHeroResize);
@@ -28,6 +31,8 @@ export async function initHero() {
     const data = await getTrending("day");
 
     if (!data || !data.results) {
+      currentHeroMovie = null;
+      renderFallbackHero();
       console.error("API data hatalı:", data);
       return;
     }
@@ -35,7 +40,11 @@ export async function initHero() {
     
     const movies = data.results.filter(m => m.backdrop_path);
 
-    if (movies.length === 0) return;
+    if (movies.length === 0) {
+      currentHeroMovie = null;
+      renderFallbackHero();
+      return;
+    }
 
    
     const randomIndex = Math.floor(Math.random() * movies.length);
@@ -48,6 +57,8 @@ export async function initHero() {
 
   } catch (error) {
     console.error("Hero error:", error);
+    currentHeroMovie = null;
+    renderFallbackHero();
   }
 }
 
@@ -72,18 +83,29 @@ function formatOverviewText(text) {
 }
 
 function handleHeroResize() {
-  const hero = document.getElementById("hero");
-
-  if (!hero) return;
-
-  if (isLibraryHero) {
-    renderLibraryHero();
-    return;
+  if (heroResizeRafId) {
+    cancelAnimationFrame(heroResizeRafId);
   }
 
-  if (currentHeroMovie) {
-    renderHero(currentHeroMovie);
-  }
+  heroResizeRafId = requestAnimationFrame(() => {
+    heroResizeRafId = null;
+
+    const hero = document.getElementById("hero");
+
+    if (!hero) return;
+
+    if (isLibraryHero) {
+      renderLibraryHero();
+      return;
+    }
+
+    if (currentHeroMovie) {
+      renderHero(currentHeroMovie);
+      return;
+    }
+
+    renderFallbackHero();
+  });
 }
 
 function renderHero(movie) {
@@ -91,14 +113,18 @@ function renderHero(movie) {
 
   const image = `https://image.tmdb.org/t/p/original${movie.backdrop_path}`;
 
-  const rawRating = Math.round((movie.vote_average / 2) * 2) / 2; // 0.5'lik adımlarla yuvarla
-  console.log("Movie rating:", movie.vote_average, "Rounded rating for stars:", rawRating);
-
-  const starHtml = generateStarIconsMarkup(rawRating, 'hero__star');
-  console.log("Generated star HTML:", starHtml);
+  const starHtml = generateStarIconsMarkup(movie.vote_average, 'hero__star');
 
   hero.innerHTML = `
-    <img class="hero__bg" src="${image}" alt="" />
+    <img
+      class="hero__bg"
+      src="${image}"
+      alt=""
+      fetchpriority="high"
+      decoding="async"
+      width="1280"
+      height="660"
+    />
 
     <div class="hero__overlay">
       <div class="container">
@@ -126,25 +152,84 @@ function renderHero(movie) {
   attachHeroSpotlightEvents(movie.id);
 }
 
+function renderFallbackHero() {
+  const hero = document.getElementById("hero");
+
+  if (!hero) return;
+
+  isLibraryHero = false;
+
+  const mobile = getAssetUrl('hero-mobile.jpg');
+  const mobile2x = getAssetUrl('hero-mobile@2x.jpg');
+  const tablet = getAssetUrl('hero-tablet.jpg');
+  const tablet2x = getAssetUrl('hero-tablet@2x.jpg');
+  const desktop = getAssetUrl('hero-desktop.jpg');
+  const desktop2x = getAssetUrl('hero-desktop@2x.jpg');
+
+  hero.innerHTML = `
+    <picture class="hero__bg-picture">
+      <source media="(min-width: 1280px)" srcset="${desktop} 1x, ${desktop2x} 2x" />
+      <source media="(min-width: 768px)" srcset="${tablet} 1x, ${tablet2x} 2x" />
+      <img
+        class="hero__bg"
+        src="${mobile}"
+        srcset="${mobile} 1x, ${mobile2x} 2x"
+        alt="Cinema hero background"
+        fetchpriority="high"
+        decoding="async"
+        width="1280"
+        height="660"
+      />
+    </picture>
+
+    <div class="hero__overlay">
+      <div class="container">
+        <div class="hero__content">
+          <h1 class="hero__title">Let's Make Your Own Cinema</h1>
+          <div class="hero__rating"></div>
+          <p class="hero__overview">
+            ${formatOverviewText(DEFAULT_HOME_HERO_OVERVIEW)}
+          </p>
+          <div class="hero__actions">
+            <button class="btn btn--primary">Get started</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  hero.querySelector('.btn--primary')?.addEventListener('click', () => {
+    window.location.href = './catalog.html';
+  });
+}
+
 function renderLibraryHero() {
   const hero = document.getElementById("hero");
 
   isLibraryHero = true;
 
   const mobile = getAssetUrl("library-mobile.jpg");
+  const mobile2x = getAssetUrl("library-mobile@2x.jpg");
   const tablet = getAssetUrl("library-tablet.jpg");
+  const tablet2x = getAssetUrl("library-tablet@2x.jpg");
   const desktop = getAssetUrl("library-desktop.jpg");
-
-  console.log("Library hero images:", { mobile, tablet, desktop });
+  const desktop2x = getAssetUrl("library-desktop@2x.jpg");
 
   hero.innerHTML = `
-    <img
-      class="hero__bg"
-      src="${mobile}"
-      srcset="${mobile} 480w, ${tablet} 768w, ${desktop} 1280w"
-      sizes="(min-width: 1280px) 100vw, (min-width: 768px) 100vw, 100vw"
-      alt="Library background"
-    />
+    <picture class="hero__bg-picture">
+      <source media="(min-width: 1280px)" srcset="${desktop} 1x, ${desktop2x} 2x" />
+      <source media="(min-width: 768px)" srcset="${tablet} 1x, ${tablet2x} 2x" />
+      <img
+        class="hero__bg"
+        src="${mobile}"
+        srcset="${mobile} 1x, ${mobile2x} 2x"
+        alt="Library background"
+        fetchpriority="high"
+        decoding="async"
+        width="1280"
+        height="660"
+      />
+    </picture>
 
     <div class="hero__overlay">
       <div class="container">

@@ -23,7 +23,7 @@ export function createMovieCard(movie, genreNames) {
   });
 // yildizlar hos olmadi bakilacak. 
   li.innerHTML =
-    '<img class="movie-card__poster" src="' + poster + '" alt="' + movie.title + '" loading="lazy" onerror="this.src=\'' + FALLBACK + '\'">' +
+    '<img class="movie-card__poster" src="' + poster + '" alt="' + movie.title + '" loading="lazy" decoding="async" width="395" height="574" onerror="this.src=\'' + FALLBACK + '\'">' +
     '<div class="movie-card__info">' +
       '<h3 class="movie-card__title">' + movie.title + '</h3>' +
       '<div class="movie-card__meta">' +
@@ -41,10 +41,15 @@ export function createMovieCard(movie, genreNames) {
 // Film dizisini grid'e renderla
 export async function renderMovies(movies, container, convertFn) {
   container.innerHTML = '';
+  var genreLists = await Promise.all(
+    movies.map(movie => convertFn(movie.genre_ids || []))
+  );
+  var fragment = document.createDocumentFragment();
 
   for (var i = 0; i < movies.length; i++) {
-    var genreNames = await convertFn(movies[i].genre_ids || []);
-    var card = createMovieCard(movies[i], genreNames);
-    container.appendChild(card);
+    var card = createMovieCard(movies[i], genreLists[i]);
+    fragment.appendChild(card);
   }
+
+  container.appendChild(fragment);
 }

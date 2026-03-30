@@ -2,6 +2,7 @@
 import { getTrending, convertGenreIdsToNames } from './API.js';
 // Kart tıklanınca film detay modalını açar.
 import { showMovieSpotlight } from './movie-spotlight.js';
+import { generateStarIconsMarkup } from './star-icons.js';
 // Haftalık trend filmleri çekme ve popup açma
 
 // Weekly Trends kartlarının yerleşeceği alan.
@@ -14,22 +15,7 @@ function getWeeklyMode() {
 }
 
 function buildWeeklyStars(voteAverage) {
-  const ratingValue = voteAverage ? voteAverage : 0;
-  const starCount = Math.round(ratingValue / 2);
-  let starsHtml = '<div class="movie-rating">';
-
-  // Weekly kartta daha temiz gorunsun diye katalogdaki dolu-bos yildiz mantigina donuyoruz.
-  for (let i = 1; i <= 5; i++) {
-    const isFilled = i <= starCount;
-    const color = isFilled ? 'var(--orange)' : 'rgba(248, 119, 25, 0.42)';
-    starsHtml +=
-      '<svg width="12" height="12" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 0L9.4687 4.19577L14 5.25L10.8242 8.79093L11.7584 13L7 11.0264L2.24157 13L3.17578 8.79093L0 5.25L4.5313 4.19577L7 0Z" fill="' +
-      color +
-      '"/></svg>';
-  }
-
-  starsHtml += '</div>';
-  return starsHtml;
+  return `<div class="movie-rating">${generateStarIconsMarkup(voteAverage, 'movie-rating__star')}</div>`;
 }
 
 // Bölüm açıldığında trend filmleri çekip render sürecini başlatır.
@@ -58,7 +44,7 @@ async function renderWeekly(movies) {
       const genres = await convertGenreIdsToNames(movie.genre_ids);
       const starsHtml = buildWeeklyStars(movie.vote_average);
       return `<div class="movie-card" data-id="${movie.id}">
-        <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}" />
+        <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}" loading="lazy" decoding="async" width="395" height="574" />
         <div class="movie-info">
             <h3>${movie.title}</h3>
             <div class="movie-info__meta">

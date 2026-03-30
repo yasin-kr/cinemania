@@ -2,7 +2,7 @@
 
 /* Mobil */
 .footer {
-  background-color: var(--secondary-black);
+  background-color: var(--background);
   padding: 20px 0;
   margin-top: auto;
 }
@@ -63,17 +63,37 @@
   position: absolute;
   top: 12px;
   right: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
   background: transparent;
   border: none;
-  color: var(--grey);
-  font-size: 18px;
+  color: var(--white);
+  font-size: 0;
   cursor: pointer;
-  line-height: 1;
-  padding: 4px 8px;
+  line-height: 0;
+  padding: 0;
+  transition:
+    color 0.24s ease,
+    transform 0.24s ease,
+    opacity 0.24s ease;
+}
+
+.modal__close::before {
+  content: '';
+  width: 24px;
+  height: 24px;
+  display: block;
+  background-color: currentColor;
+  -webkit-mask: url('../img/close-outline.svg') center / contain no-repeat;
+  mask: url('../img/close-outline.svg') center / contain no-repeat;
 }
 
 .modal__close:hover {
-  color: var(--white);
+  color: #f84119;
+  transform: scale(1.05);
 }
 
 .modal__title {
