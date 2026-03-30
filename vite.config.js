@@ -23,10 +23,11 @@ export default defineConfig(({ command }) => {
           },
           entryFileNames: chunkInfo => {
             if (chunkInfo.name === 'commonHelpers') {
-              return 'commonHelpers.js';
+              return 'assets/commonHelpers-[hash].js';
             }
-            return '[name].js';
+            return 'assets/[name]-[hash].js';
           },
+          chunkFileNames: 'assets/[name]-[hash].js',
           assetFileNames: assetInfo => {
             if (assetInfo.name && assetInfo.name.endsWith('.html')) {
               return '[name].[ext]';
