@@ -125,6 +125,45 @@
   display: block;
 }
 
+.spotlight-trailer-fallback {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(220px, 320px);
+  align-items: center;
+  gap: 32px;
+}
+
+.spotlight-trailer-fallback__copy {
+  display: grid;
+  gap: 12px;
+}
+
+.spotlight-trailer-fallback__title,
+.spotlight-trailer-fallback__text {
+  margin: 0;
+}
+
+.spotlight-trailer-fallback__title {
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--white);
+}
+
+.spotlight-trailer-fallback__text {
+  font-size: 24px;
+  line-height: 1.3;
+  color: var(--white);
+}
+
+.spotlight-trailer-fallback__image {
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  justify-self: end;
+  object-fit: contain;
+}
+
 /* Film başlığı. */
 .spotlight-title {
   margin: 0;
@@ -201,6 +240,25 @@
   color: var(--white);
   font-size: 16px;
   line-height: 1.56;
+  max-height: 180px;
+  overflow-y: auto;
+  padding-right: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(248, 119, 25, 0.7) rgba(255, 255, 255, 0.08);
+}
+
+.spotlight-overview::-webkit-scrollbar {
+  width: 6px;
+}
+
+.spotlight-overview::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+}
+
+.spotlight-overview::-webkit-scrollbar-thumb {
+  background: rgba(248, 119, 25, 0.7);
+  border-radius: 999px;
 }
 
 /* Add to my library butonunun temel görünümü. */
@@ -227,25 +285,39 @@
 }
 
 /* Hover anında butona dolu görünüm verir. */
-.spotlight-library-button:hover {
+.spotlight-library-button--add {
+  background: transparent;
+  color: var(--white);
+}
+
+.spotlight-library-button--add:hover {
   background: var(--orange);
+  color: var(--white);
   transform: translateY(-1px);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.12),
     0 7px 14px rgba(0, 0, 0, 0.2);
 }
 
-.spotlight-library-button:active:not(:disabled) {
+.spotlight-library-button--remove {
+  background: transparent;
+  color: var(--white);
+}
+
+.spotlight-library-button--remove:hover {
+  background: rgba(248, 65, 25, 0.12);
+  color: #ff6b08;
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 7px 14px rgba(0, 0, 0, 0.18);
+}
+
+.spotlight-library-button:active {
   transform: translateY(1px) scale(0.985);
   box-shadow:
     inset 0 2px 4px rgba(0, 0, 0, 0.18),
     0 2px 6px rgba(0, 0, 0, 0.14);
-}
-
-/* Film eklendikten sonra butonun pasif görünmesini sağlar. */
-.spotlight-library-button:disabled {
-  opacity: 0.7;
-  cursor: default;
 }
 
 /* Tablet ve üstünde modalı iki kolonlu yapıya geçirir. */
@@ -272,81 +344,109 @@
 
 @media screen and (max-width: 767px) {
   /* Mobile gorunumde detay popup'ini figmadaki gibi dar ve ekrana sigan bir kolonda tutuyoruz. */
+  .spotlight-backdrop {
+    align-items: flex-start;
+    padding: 12px;
+  }
+
   .spotlight-shell:not(.spotlight-shell--trailer) {
-    width: min(280px, calc(100vw - 40px));
-    gap: 20px;
-    padding: 44px 16px 24px;
-    border-radius: 16px;
+    width: min(264px, calc(100vw - 56px));
+    max-height: calc(100dvh - 24px);
+    gap: 14px;
+    padding: 38px 12px 18px;
+    border-radius: 14px;
+    overflow: hidden;
   }
 
   .spotlight-close {
-    top: 16px;
-    right: 16px;
-    width: 28px;
-    height: 28px;
+    top: 12px;
+    right: 12px;
+    width: 24px;
+    height: 24px;
   }
 
   .spotlight-close::before {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
   }
 
   .spotlight-poster-wrap {
-    border-radius: 8px;
+    border-radius: 6px;
   }
 
   .spotlight-content {
-    gap: 16px;
+    min-height: 0;
+    gap: 12px;
+    overflow-y: auto;
+    padding-right: 4px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(248, 119, 25, 0.7) rgba(255, 255, 255, 0.08);
+  }
+
+  .spotlight-content::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .spotlight-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+  }
+
+  .spotlight-content::-webkit-scrollbar-thumb {
+    background: rgba(248, 119, 25, 0.7);
+    border-radius: 999px;
   }
 
   .spotlight-title {
-    font-size: 28px;
-    line-height: 1.18;
+    font-size: 20px;
+    line-height: 1.15;
   }
 
   .spotlight-meta {
-    gap: 10px;
+    gap: 8px;
   }
 
   .spotlight-meta-row {
-    grid-template-columns: 96px 1fr;
-    gap: 8px 12px;
+    grid-template-columns: 82px 1fr;
+    gap: 6px 10px;
   }
 
   .spotlight-meta-label,
   .spotlight-meta-value {
-    font-size: 16px;
+    font-size: 12px;
     line-height: 1.25;
   }
 
   .spotlight-vote-pill {
-    min-width: 42px;
-    padding: 2px 6px;
-    font-size: 12px;
+    min-width: 34px;
+    padding: 2px 5px;
+    font-size: 10px;
   }
 
   .spotlight-vote-separator {
-    margin: 0 6px;
-    font-size: 16px;
+    margin: 0 4px;
+    font-size: 12px;
   }
 
   .spotlight-copy-block {
-    gap: 12px;
+    gap: 8px;
   }
 
   .spotlight-copy-title {
-    font-size: 18px;
+    font-size: 14px;
   }
 
   .spotlight-overview {
-    font-size: 14px;
-    line-height: 1.43;
+    max-height: 132px;
+    padding-right: 4px;
+    font-size: 11px;
+    line-height: 1.4;
   }
 
   .spotlight-library-button {
-    min-width: 140px;
-    padding: 10px 20px;
-    font-size: 12px;
+    min-width: 110px;
+    padding: 8px 14px;
+    font-size: 10px;
   }
 
   .spotlight-shell--trailer {
@@ -358,4 +458,24 @@
   .spotlight-trailer-frame-wrap {
     width: 100%;
   }
+
+  .spotlight-trailer-fallback {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    text-align: left;
+  }
+
+  .spotlight-trailer-fallback__title {
+    font-size: 24px;
+  }
+
+  .spotlight-trailer-fallback__text {
+    font-size: 18px;
+  }
+
+  .spotlight-trailer-fallback__image {
+    max-width: 220px;
+    justify-self: center;
+  }
 }
+

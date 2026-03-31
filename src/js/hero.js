@@ -1,4 +1,5 @@
-import { getTrending } from "./API.js";
+import { getTrending } from "./api.js";
+import { reportError } from './logger.js';
 import { showMovieSpotlight, showMovieTrailerSpotlight } from './movie-spotlight.js';
 import { generateStarIconsMarkup } from './star-icons.js';
 
@@ -11,6 +12,7 @@ const DEFAULT_HOME_HERO_OVERVIEW =
 let currentHeroMovie = null;
 let isLibraryHero = false;
 let heroResizeRafId = null;
+let currentLibraryHeroMovie = null;
 
 // Ekran boyutu değiştiğinde hero içeriğini mevcut moda göre yeniden kuruyoruz.
 window.addEventListener("resize", handleHeroResize);
@@ -23,7 +25,7 @@ export async function initHero() {
   // Library sayfasında hero farklı içerikle çalıştığı için ayrı akışa giriyoruz.
   if (window.location.pathname.toLowerCase().includes("library")) {
     isLibraryHero = true;
-    renderLibraryHero();
+    await renderLibraryHero();
     return;
   }
 
@@ -33,7 +35,7 @@ export async function initHero() {
     if (!data || !data.results) {
       currentHeroMovie = null;
       renderFallbackHero();
-      console.error("API data hatalı:", data);
+      reportError("API data hatalı:", data);
       return;
     }
 
@@ -56,7 +58,7 @@ export async function initHero() {
     renderHero(movie);
 
   } catch (error) {
-    console.error("Hero error:", error);
+    reportError("Hero error:", error);
     currentHeroMovie = null;
     renderFallbackHero();
   }
@@ -95,6 +97,11 @@ function handleHeroResize() {
     if (!hero) return;
 
     if (isLibraryHero) {
+      if (currentLibraryHeroMovie) {
+        renderLibraryFeaturedHero(currentLibraryHeroMovie);
+        return;
+      }
+
       renderLibraryHero();
       return;
     }
@@ -203,10 +210,28 @@ function renderFallbackHero() {
   });
 }
 
-function renderLibraryHero() {
+async function renderLibraryHero() {
   const hero = document.getElementById("hero");
 
+  if (!hero) return;
+
   isLibraryHero = true;
+
+  try {
+    const data = await getTrending("day");
+    const movies = data?.results?.filter(movie => movie.backdrop_path) || [];
+
+    if (movies.length > 0) {
+      const randomIndex = Math.floor(Math.random() * movies.length);
+      currentLibraryHeroMovie = movies[randomIndex];
+      renderLibraryFeaturedHero(currentLibraryHeroMovie);
+      return;
+    }
+  } catch (error) {
+    reportError("Library hero error:", error);
+  }
+
+  currentLibraryHeroMovie = null;
 
   const mobile = getAssetUrl("library-mobile.jpg");
   const mobile2x = getAssetUrl("library-mobile@2x.jpg");
@@ -245,6 +270,45 @@ function renderLibraryHero() {
   `;
 }
 
+function renderLibraryFeaturedHero(movie) {
+  const hero = document.getElementById('hero');
+
+  if (!hero) return;
+
+  const image = `https://image.tmdb.org/t/p/original${movie.backdrop_path}`;
+  const starHtml = generateStarIconsMarkup(movie.vote_average, 'hero__star');
+
+  hero.innerHTML = `
+    <img
+      class="hero__bg"
+      src="${image}"
+      alt="${movie.title}"
+      fetchpriority="high"
+      decoding="async"
+      width="1280"
+      height="660"
+    />
+
+    <div class="hero__overlay">
+      <div class="container">
+        <div class="hero__content">
+          <h1 class="hero__title">${movie.title}</h1>
+          <div class="hero__rating">${starHtml}</div>
+          <p class="hero__overview">
+            ${formatOverviewText(movie.overview)}
+          </p>
+          <div class="hero__actions">
+            <button class="btn btn--primary">Watch trailer</button>
+            <button class="btn btn--secondary">More details</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  attachHeroSpotlightEvents(movie.id);
+}
+
 function attachHeroSpotlightEvents(movieId) {
   const hero = document.getElementById('hero');
 
@@ -263,3 +327,5 @@ function attachHeroSpotlightEvents(movieId) {
     showMovieSpotlight(movieId);
   });
 }
+
+

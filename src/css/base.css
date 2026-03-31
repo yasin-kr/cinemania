@@ -136,8 +136,13 @@ body.light-theme .catalog-section .movie-card__year {
   color: #ffffff;
 }
 
+body.light-theme #libraryGallery .movie-title,
+body.light-theme #libraryGallery .movie-info__meta p {
+  color: #ffffff;
+}
+
 body.light-theme .spotlight-shell {
-  box-shadow: 0 12px 40px rgba(17, 17, 17, 0.12);
+  box-shadow: 0 0 24px rgba(248, 119, 25, 0.28);
 }
 
 body.light-theme .spotlight-vote-separator,
@@ -157,8 +162,61 @@ body.light-theme .spotlight-library-button {
   color: #111111;
 }
 
+body.light-theme .spotlight-library-button--add {
+  background: transparent;
+  color: #111111;
+}
+
+body.light-theme .spotlight-library-button--add:hover {
+  background: var(--orange);
+  color: #ffffff;
+}
+
+body.light-theme .spotlight-library-button--remove {
+  background: transparent;
+  color: #111111;
+  border-color: var(--orange);
+}
+
+body.light-theme .spotlight-library-button--remove:hover {
+  background: #111111;
+  color: var(--orange);
+}
+
 body.light-theme .btn--secondary {
   color: var(--orange);
+}
+
+body.light-theme .custom-select__button,
+body.light-theme .custom-select__list {
+  background-color: #ffffff;
+  border-color: rgba(17, 17, 17, 0.24);
+}
+
+body.light-theme .custom-select__button,
+body.light-theme .custom-select__list li,
+body.light-theme .custom-select__arrow {
+  color: #111111;
+}
+
+body.light-theme .custom-select__list li.selected {
+  color: var(--orange);
+}
+
+body.light-theme .searcher__input-wrapper {
+  border-color: rgba(17, 17, 17, 0.24);
+}
+
+body.light-theme .searcher__input-wrapper:focus-within,
+body.light-theme .searcher .custom-select__button:focus,
+body.light-theme .searcher .custom-select__button[aria-expanded='true'] {
+  border-color: var(--orange);
+  box-shadow: 0 0 0 1px rgba(248, 119, 25, 0.18);
+}
+
+body.light-theme .spotlight-trailer-fallback__title,
+body.light-theme .spotlight-trailer-fallback__text {
+  color: #111111;
 }
 
 body.light-theme .searcher__submit {

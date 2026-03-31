@@ -1,11 +1,17 @@
-import { getMovieDetails, getMovieVideos } from './API.js';
+import { getMovieDetails, getMovieVideos } from './api.js';
+import { reportError } from './logger.js';
+import {
+  isMovieSaved as isMovieSavedInLibrary,
+  removeMovieFromLibrary as deleteMovieFromLibrary,
+  saveMovieToLibrary as persistMovieToLibrary,
+} from './library-storage.js';
 
 // More details ve Watch trailer popup'ları bu modül içinden yönetiliyor.
 
 // Modalın DOM içinde tekil olarak bulunabilmesi için kullanılan id.
 const OVERLAY_ID = 'movie-spotlight-overlay';
+let spotlightEscapeHandler = null;
 // Library tarafına dokunmadan geçici kayıt tutmak için kullanılan localStorage anahtarı.
-const SAVED_MOVIES_KEY = 'cinemania-saved-movies';
 
 // Vote / Votes alanındaki küçük kutucuklu yapıyı üretir.
 // More details için oy bilgisini ortak bir yapıda üretir.
@@ -44,8 +50,11 @@ function createSpotlightMarkup(movie) {
   const popularity = movie.popularity ? movie.popularity.toFixed(1) : 'N/A';
   const overview = movie.overview || 'No description available for this movie.';
   const buttonLabel = isMovieSaved(movie.id)
-    ? 'Added to my library'
+    ? 'Remove from my library'
     : 'Add to my library';
+  const buttonStateClass = isMovieSaved(movie.id)
+    ? 'spotlight-library-button--remove'
+    : 'spotlight-library-button--add';
 
   return `
     <div class="spotlight-shell" role="dialog" aria-modal="true" aria-labelledby="spotlight-title">
@@ -67,7 +76,7 @@ function createSpotlightMarkup(movie) {
           <h3 class="spotlight-copy-title">ABOUT</h3>
           <p class="spotlight-overview">${overview}</p>
         </div>
-        <button class="spotlight-library-button" type="button" data-movie-id="${movie.id}">
+        <button class="spotlight-library-button ${buttonStateClass}" type="button" data-movie-id="${movie.id}">
           ${buttonLabel}
         </button>
       </div>
@@ -96,50 +105,48 @@ function createTrailerMarkup(movie, trailerKey) {
   `;
 }
 
-// Daha önce kaydedilen filmleri localStorage içinden okur.
-function readSavedMovies() {
-  return JSON.parse(localStorage.getItem(SAVED_MOVIES_KEY) || '[]');
+function createTrailerFallbackMarkup() {
+  const fallbackImage = new URL('../img/oops-logo.png', import.meta.url).href;
+
+  return `
+    <div class="spotlight-shell spotlight-shell--trailer spotlight-shell--trailer-fallback" role="dialog" aria-modal="true" aria-labelledby="spotlight-trailer-fallback-title">
+      <button class="spotlight-close" type="button" aria-label="Close trailer fallback">&times;</button>
+      <div class="spotlight-trailer-fallback">
+        <div class="spotlight-trailer-fallback__copy">
+          <h2 id="spotlight-trailer-fallback-title" class="spotlight-trailer-fallback__title">OOPS...</h2>
+          <p class="spotlight-trailer-fallback__text">We are very sorry!</p>
+          <p class="spotlight-trailer-fallback__text">But we couldn&apos;t find the trailer.</p>
+        </div>
+        <img
+          class="spotlight-trailer-fallback__image"
+          src="${fallbackImage}"
+          alt="Trailer unavailable"
+          width="320"
+          height="240"
+        />
+      </div>
+    </div>
+  `;
 }
 
 // İlgili film daha önce eklenmiş mi kontrol eder.
 function isMovieSaved(movieId) {
-  return readSavedMovies().some(savedMovie => savedMovie.id === movieId);
+  return isMovieSavedInLibrary(movieId);
 }
 
 // Filmi localStorage'a ekler ve isteyen modüller dinleyebilsin diye event yayınlar.
 function saveMovieToLibrary(movie) {
-  const savedMovies = readSavedMovies();
-
-  if (savedMovies.some(savedMovie => savedMovie.id === movie.id)) {
-    return false;
-  }
-
-  const movieSummary = {
-    id: movie.id,
-    title: movie.title,
-    poster_path: movie.poster_path,
-    release_date: movie.release_date,
-    genres: movie.genres,
-    vote_average: movie.vote_average,
-  };
-
-  localStorage.setItem(
-    SAVED_MOVIES_KEY,
-    JSON.stringify([...savedMovies, movieSummary])
-  );
-
-  document.dispatchEvent(
-    new CustomEvent('cinemania:library:add', {
-      detail: movieSummary,
-    })
-  );
-
-  return true;
+  return persistMovieToLibrary(movie);
 }
 
 // Açık modal varsa kaldırır ve body scroll kilidini çözer.
 function removeSpotlight() {
   const existingOverlay = document.getElementById(OVERLAY_ID);
+
+  if (spotlightEscapeHandler) {
+    document.removeEventListener('keydown', spotlightEscapeHandler);
+    spotlightEscapeHandler = null;
+  }
 
   if (!existingOverlay) return;
 
@@ -154,11 +161,22 @@ function attachSpotlightEvents(overlayElement, movie) {
 
   closeButton?.addEventListener('click', removeSpotlight);
   libraryButton?.addEventListener('click', () => {
+    const movieIsSaved = isMovieSaved(movie.id);
+
+    if (movieIsSaved) {
+      const wasRemoved = deleteMovieFromLibrary(movie.id);
+
+      if (wasRemoved) {
+        updateLibraryButtonState(libraryButton, false);
+      }
+
+      return;
+    }
+
     const wasAdded = saveMovieToLibrary(movie);
 
     if (wasAdded) {
-      libraryButton.textContent = 'Added to my library';
-      libraryButton.disabled = true;
+      updateLibraryButtonState(libraryButton, true);
     }
   });
 
@@ -168,14 +186,23 @@ function attachSpotlightEvents(overlayElement, movie) {
     }
   });
 
-  const handleEscape = event => {
+  spotlightEscapeHandler = event => {
     if (event.key === 'Escape') {
       removeSpotlight();
-      document.removeEventListener('keydown', handleEscape);
     }
   };
 
-  document.addEventListener('keydown', handleEscape);
+  document.addEventListener('keydown', spotlightEscapeHandler);
+}
+
+function updateLibraryButtonState(button, isSaved) {
+  if (!button) return;
+
+  button.textContent = isSaved
+    ? 'Remove from my library'
+    : 'Add to my library';
+  button.classList.toggle('spotlight-library-button--add', !isSaved);
+  button.classList.toggle('spotlight-library-button--remove', isSaved);
 }
 
 // Dışarıdan çağrılan ana fonksiyon: film detayını çekip modalı ekrana basar.
@@ -195,7 +222,7 @@ export async function showMovieSpotlight(movieId) {
 
     attachSpotlightEvents(overlayElement, movie);
   } catch (error) {
-    console.error('Movie spotlight error:', error);
+    reportError('Movie spotlight error:', error);
   }
 }
 
@@ -222,22 +249,22 @@ export async function showMovieTrailerSpotlight(movieId) {
       videos.find(video => video.site === 'YouTube');
 
     // Önce resmi trailer'ı, yoksa diğer YouTube videolarını yedek olarak kullanıyoruz.
-    if (!trailer?.key) {
-      console.warn('Movie trailer error: no YouTube trailer found', movieId);
-      return;
-    }
-
     const overlayElement = document.createElement('div');
 
     overlayElement.id = OVERLAY_ID;
     overlayElement.className = 'spotlight-backdrop';
-    overlayElement.innerHTML = createTrailerMarkup(movie, trailer.key);
+    overlayElement.innerHTML = trailer?.key
+      ? createTrailerMarkup(movie, trailer.key)
+      : createTrailerFallbackMarkup();
 
     document.body.appendChild(overlayElement);
     document.body.classList.add('spotlight-open');
 
     attachSpotlightEvents(overlayElement);
   } catch (error) {
-    console.error('Movie trailer error:', error);
+    reportError('Movie trailer error:', error);
   }
 }
+
+
+

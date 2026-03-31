@@ -1,5 +1,6 @@
 // Haftalık trend verisini çeker ve kartları ekrana basar.
-import { getTrending, convertGenreIdsToNames } from './API.js';
+import { getTrending, convertGenreIdsToNames } from './api.js';
+import { reportError } from './logger.js';
 // Kart tıklanınca film detay modalını açar.
 import { showMovieSpotlight } from './movie-spotlight.js';
 import { generateStarIconsMarkup } from './star-icons.js';
@@ -27,7 +28,7 @@ export async function initWeeklyTrends() {
     weeklyMoviesState = data.results || [];
     renderWeekly(weeklyMoviesState);
   } catch (error) {
-    console.error('Weekly Trends Error:', error);
+    reportError('Weekly Trends Error:', error);
   }
 }
 

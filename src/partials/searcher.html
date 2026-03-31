@@ -10,9 +10,21 @@
       <button class="searcher__clear" type="button" id="clearBtn" hidden>✕</button>
     </div>
     
-    <select class="searcher__year" id="yearSelect">
+    <select class="searcher__year-native" id="yearSelect" hidden aria-hidden="true" tabindex="-1">
       <option value="">Year</option>
     </select>
+
+    <div id="yearSelectCustom" class="custom-select searcher__year-select" aria-haspopup="listbox">
+      <button
+        type="button"
+        class="custom-select__button"
+        aria-expanded="false"
+      >
+        <span class="custom-select__label">Year</span>
+        <span class="custom-select__arrow">▾</span>
+      </button>
+      <ul class="custom-select__list hide" role="listbox"></ul>
+    </div>
 
     <button class="searcher__submit" type="submit">
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
