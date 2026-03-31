@@ -1,4 +1,4 @@
-import{e as y,L as U,a as R,T as f,f as L,i as E,j as B,k as A,c as x,d as C,b as W,l as I,m as N,n as H,s as V,o as G,h as O}from"./footer-DArbxI-b.js";const S="https://api.themoviedb.org/3";function j(){return window.innerWidth>=1280?"https://image.tmdb.org/t/p/w1280":"https://image.tmdb.org/t/p/w780"}let k={},o=null,_=!1;function D(e){if(!e)return"-";const[t,i,n]=e.split("-");return`${n}.${i}.${t}`}function P(e,t){return`
+import{e as y,L as U,a as R,T as f,f as L,i as E,j as B,k as A,c as x,d as C,b as W,l as I,m as N,n as H,s as V,o as G,h as O}from"./footer-DofSQrK9.js";const S="https://api.themoviedb.org/3";function j(){return window.innerWidth>=1280?"https://image.tmdb.org/t/p/w1280":"https://image.tmdb.org/t/p/w780"}let k={},o=null,_=!1;function D(e){if(!e)return"-";const[t,i,n]=e.split("-");return`${n}.${i}.${t}`}function P(e,t){return`
     <span class="vote-pill">${e?e.toFixed(1):"0.0"}</span>
     <span class="vote-separator">/</span>
     <span class="vote-pill">${t??0}</span>
@@ -17,4 +17,4 @@ import{e as y,L as U,a as R,T as f,f as L,i as E,j as B,k as A,c as x,d as C,b a
             </div>
         </div>
     </div>`}));c.innerHTML=i.join(""),oe()}function oe(){c.dataset.listenerAttached!=="true"&&(c.addEventListener("click",e=>{const t=e.target.closest(".movie-card");if(!t)return;const i=t.dataset.id;C(i)}),c.dataset.listenerAttached="true")}window.addEventListener("resize",function(){if(!(!c||m.length===0)){var e=$();e!==p&&q(m)}});async function b(){N(),H(),V();try{await Promise.allSettled([G(),ee(),ie()])}finally{O()}}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",b,{once:!0}):b();
-//# sourceMappingURL=main-Dti_AlFE.js.map
+//# sourceMappingURL=main-1n_uVWp2.js.map
