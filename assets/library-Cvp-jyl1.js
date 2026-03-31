@@ -1,4 +1,4 @@
-import{r as E,s as b,g as _,L as M,a as S,h as I,c as T,b as C,d as B}from"./footer-BqmnW4Ai.js";import"./main-CC9eN-CU.js";import"./vendor-B2N6ulqC.js";const G=E();let l=[],v=[],f=1;const L=9;document.addEventListener("DOMContentLoaded",async()=>{const t=document.getElementById("libraryGallery"),n=document.getElementById("loadMore"),e=document.getElementById("genreFilter");if(t){b();try{if(l=G,v=[...l],l.length===0){t.innerHTML=`
+import{r as E,s as b,g as _,L as M,a as S,h as I,c as T,b as C,d as B}from"./footer-DArbxI-b.js";import"./main-Dti_AlFE.js";import"./vendor-B2N6ulqC.js";const G=E();let l=[],v=[],f=1;const L=9;document.addEventListener("DOMContentLoaded",async()=>{const t=document.getElementById("libraryGallery"),n=document.getElementById("loadMore"),e=document.getElementById("genreFilter");if(t){b();try{if(l=G,v=[...l],l.length===0){t.innerHTML=`
         <div class="empty-state">
           <p class="empty-text">OOPS... <br> We are very sorry! <br> You don't have any movies <br> 
           at your library.</p>
@@ -21,4 +21,4 @@ import{r as E,s as b,g as _,L as M,a as S,h as I,c as T,b as C,d as B}from"./foo
               </div>
           </div>
         </div>`}));n.innerHTML+=o.join("")}function H(t){t.dataset.listenerAttached!=="true"&&(t.addEventListener("click",n=>{const e=n.target.closest(".movie-card");if(!e)return;const o=e.dataset.id;B(o)}),t.dataset.listenerAttached="true")}
-//# sourceMappingURL=library-bliejlYW.js.map
+//# sourceMappingURL=library-Cvp-jyl1.js.map
