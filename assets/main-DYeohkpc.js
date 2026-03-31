@@ -1,4 +1,4 @@
-import{h as u,T as v,g,c as S,s as L,a as x,b as C,i as T,d as q}from"./footer-CPeUwMva.js";const y="https://api.themoviedb.org/3",U="https://image.tmdb.org/t/p/original";let h={};function W(e){if(!e)return"-";const[t,r,n]=e.split("-");return`${n}.${r}.${t}`}function j(e,t){return`
+import{h as u,T as v,b as g,c as S,s as L,a as x,d as C,i as T,e as q}from"./footer-B5LBRZjU.js";const y="https://api.themoviedb.org/3",U="https://image.tmdb.org/t/p/original";let h={};function W(e){if(!e)return"-";const[t,r,n]=e.split("-");return`${n}.${r}.${t}`}function j(e,t){return`
     <span class="vote-pill">${e?e.toFixed(1):"0.0"}</span>
     <span class="vote-separator">/</span>
     <span class="vote-pill">${t??0}</span>
@@ -12,4 +12,4 @@ import{h as u,T as v,g,c as S,s as L,a as x,b as C,i as T,d as q}from"./footer-C
             </div>
         </div>
     </div>`}));a.innerHTML=r.join(""),A()}function A(){a.dataset.listenerAttached!=="true"&&(a.addEventListener("click",e=>{const t=e.target.closest(".movie-card");if(!t)return;const r=t.dataset.id;L(r)}),a.dataset.listenerAttached="true")}window.addEventListener("resize",function(){if(!(!a||s.length===0)){var e=f();e!==d&&w(s)}});function p(){T(),q(),I(),V()}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",p,{once:!0}):p();
-//# sourceMappingURL=main-CLZ-yYtX.js.map
+//# sourceMappingURL=main-DYeohkpc.js.map
