@@ -1,4 +1,4 @@
-import { convertGenreIdsToNames, getGenres } from './API.js';
+import { convertGenreIdsToNames, getGenres } from './api.js';
 import { showMovieSpotlight } from './movie-spotlight.js';
 import { generateStarIconsMarkup } from './star-icons.js';
 
