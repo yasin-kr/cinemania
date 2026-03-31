@@ -15,10 +15,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
     <title>Cinemania - Catalog</title>
-    <script type="module" crossorigin src="/cinemania/assets/catalog-C46TtmLd.js"></script>
+    <script type="module" crossorigin src="/cinemania/assets/catalog-B5qlpDOM.js"></script>
     <link rel="modulepreload" crossorigin href="/cinemania/assets/vendor-B2N6ulqC.js">
-    <link rel="modulepreload" crossorigin href="/cinemania/assets/footer-B5LBRZjU.js">
-    <link rel="stylesheet" crossorigin href="/cinemania/assets/footer-B27QkQiF.css">
+    <link rel="modulepreload" crossorigin href="/cinemania/assets/footer-DCW3k2dz.js">
+    <link rel="stylesheet" crossorigin href="/cinemania/assets/footer-DHdQlA2R.css">
   </head>
   <body>
     <header id="header" class="header" data-dev="Header Section">
@@ -131,9 +131,21 @@
       <button class="searcher__clear" type="button" id="clearBtn" hidden>✕</button>
     </div>
     
-    <select class="searcher__year" id="yearSelect">
+    <select class="searcher__year-native" id="yearSelect" hidden aria-hidden="true" tabindex="-1">
       <option value="">Year</option>
     </select>
+
+    <div id="yearSelectCustom" class="custom-select searcher__year-select" aria-haspopup="listbox">
+      <button
+        type="button"
+        class="custom-select__button"
+        aria-expanded="false"
+      >
+        <span class="custom-select__label">Year</span>
+        <span class="custom-select__arrow">▾</span>
+      </button>
+      <ul class="custom-select__list hide" role="listbox"></ul>
+    </div>
 
     <button class="searcher__submit" type="submit">
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -161,7 +173,7 @@
     <footer class="footer">
   <div class="container">
     <p class="footer__copy">
-      © 2024 | All Rights Reserved | Developed with ♥ by
+      &copy; 2026 | All Rights Reserved | Developed with <img src="data:image/svg+xml,%3csvg%20width='14'%20height='13'%20viewBox='0%200%2014%2013'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cpath%20d='M7%2012.88L6.02%2011.9C2.38%208.68%200%206.51%200%203.85C0%201.68%201.68%200%203.85%200C5.04%200%206.23%200.56%207%201.47C7.77%200.56%208.96%200%2010.15%200C12.32%200%2014%201.68%2014%203.85C14%206.51%2011.62%208.68%207.98%2011.9L7%2012.88Z'%20fill='%23F87719'/%3e%3c/svg%3e" alt="love" class="footer__favorite" width="14" height="14" decoding="async" /> by
       <button class="footer__team-btn" id="openTeamModal" type="button">GoIT Students</button>
     </p>
   </div>
@@ -256,6 +268,8 @@
     </div>
   </div>
 </footer>
+
+
 
 
   </body>
