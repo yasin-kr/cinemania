@@ -1,4 +1,4 @@
-import{h as y,L as R,b as U,T as v,d as b,i as E,r as A,e as B,c as x,s as C,a as I,f as N,j as G,k as H,l as V,m as O,n as W}from"./footer-DCW3k2dz.js";const S="https://api.themoviedb.org/3",j="https://image.tmdb.org/t/p/original";let k={},o=null,w=!1;function D(e){if(!e)return"-";const[t,i,n]=e.split("-");return`${n}.${i}.${t}`}function P(e,t){return`
+import{e as y,L as R,a as U,T as v,f as b,i as E,j as A,k as B,c as x,d as C,b as I,l as N,m as G,n as H,s as V,o as O,h as W}from"./footer-BqmnW4Ai.js";const S="https://api.themoviedb.org/3",j="https://image.tmdb.org/t/p/original";let k={},o=null,w=!1;function D(e){if(!e)return"-";const[t,i,n]=e.split("-");return`${n}.${i}.${t}`}function P(e,t){return`
     <span class="vote-pill">${e?e.toFixed(1):"0.0"}</span>
     <span class="vote-separator">/</span>
     <span class="vote-pill">${t??0}</span>
@@ -17,4 +17,4 @@ import{h as y,L as R,b as U,T as v,d as b,i as E,r as A,e as B,c as x,s as C,a a
             </div>
         </div>
     </div>`}));c.innerHTML=i.join(""),ie()}function ie(){c.dataset.listenerAttached!=="true"&&(c.addEventListener("click",e=>{const t=e.target.closest(".movie-card");if(!t)return;const i=t.dataset.id;C(i)}),c.dataset.listenerAttached="true")}window.addEventListener("resize",function(){if(!(!c||m.length===0)){var e=$();e!==p&&q(m)}});async function L(){G(),H(),V();try{await Promise.allSettled([O(),ee(),ne()])}finally{W()}}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",L,{once:!0}):L();
-//# sourceMappingURL=main-B2Lk7R-G.js.map
+//# sourceMappingURL=main-CC9eN-CU.js.map
