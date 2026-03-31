@@ -9,7 +9,13 @@ import {
 } from './library-storage.js';
 
 const BASE_URL = 'https://api.themoviedb.org/3';
-const IMG_URL = 'https://image.tmdb.org/t/p/original';
+function getUpcomingImageBaseUrl() {
+  if (window.innerWidth >= 1280) {
+    return 'https://image.tmdb.org/t/p/w1280';
+  }
+
+  return 'https://image.tmdb.org/t/p/w780';
+}
 
 let genresMap = {};
 let currentUpcomingMovie = null;
@@ -224,7 +230,7 @@ async function fetchUpcoming(elements) {
     overviewEl.textContent = movie.overview ?? 'No overview available';
 
     imgEl.src = movie.backdrop_path
-      ? IMG_URL + movie.backdrop_path
+      ? getUpcomingImageBaseUrl() + movie.backdrop_path
       : 'https://via.placeholder.com/800x450';
     imgEl.alt = movie.title ?? 'Upcoming movie backdrop';
 

@@ -15,6 +15,11 @@ function getWeeklyMode() {
   return window.innerWidth < 768 ? 'mobile' : 'large';
 }
 
+function getWeeklyPosterUrl(posterPath) {
+  const size = window.innerWidth < 768 ? 'w342' : 'w500';
+  return `https://image.tmdb.org/t/p/${size}${posterPath}`;
+}
+
 function buildWeeklyStars(voteAverage) {
   return `<div class="movie-rating">${generateStarIconsMarkup(voteAverage, 'movie-rating__star')}</div>`;
 }
@@ -45,7 +50,7 @@ async function renderWeekly(movies) {
       const genres = await convertGenreIdsToNames(movie.genre_ids);
       const starsHtml = buildWeeklyStars(movie.vote_average);
       return `<div class="movie-card" data-id="${movie.id}">
-        <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}" loading="lazy" decoding="async" width="395" height="574" />
+        <img src="${getWeeklyPosterUrl(movie.poster_path)}" alt="${movie.title}" loading="lazy" decoding="async" width="395" height="574" />
         <div class="movie-info">
             <h3>${movie.title}</h3>
             <div class="movie-info__meta">

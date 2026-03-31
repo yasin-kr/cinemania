@@ -74,6 +74,16 @@ function shouldTruncateOverview() {
   return window.innerWidth <= MOBILE_TABLET_MAX_WIDTH;
 }
 
+function getBackdropImageUrl(backdropPath) {
+  if (!backdropPath) return '';
+
+  if (window.innerWidth < 768) {
+    return `https://image.tmdb.org/t/p/w780${backdropPath}`;
+  }
+
+  return `https://image.tmdb.org/t/p/w1280${backdropPath}`;
+}
+
 function formatOverviewText(text) {
   const overview = text?.trim() || "No description";
 
@@ -118,7 +128,7 @@ function handleHeroResize() {
 function renderHero(movie) {
   const hero = document.getElementById("hero");
 
-  const image = `https://image.tmdb.org/t/p/original${movie.backdrop_path}`;
+  const image = getBackdropImageUrl(movie.backdrop_path);
 
   const starHtml = generateStarIconsMarkup(movie.vote_average, 'hero__star');
 
@@ -275,7 +285,7 @@ function renderLibraryFeaturedHero(movie) {
 
   if (!hero) return;
 
-  const image = `https://image.tmdb.org/t/p/original${movie.backdrop_path}`;
+  const image = getBackdropImageUrl(movie.backdrop_path);
   const starHtml = generateStarIconsMarkup(movie.vote_average, 'hero__star');
 
   hero.innerHTML = `
