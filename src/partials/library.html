@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate"
+    />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="./css/library.css" />
+    <title>My-library</title>
+  </head>
+
+  <body>
+    <main>
+      <!-- <section class="library-hero">
+        <div class="library-hero-container">
+          <div class="library-hero-text">
+            <h1 class="library-title">Create Your Dream Cinema</h1>
+            <p class="library-description">
+              Is a guide to designing a personalized movie theater experience
+              with the right equipment, customized decor, and favorite films.
+              This guide helps you bring the cinema experience into your own
+              home with cozy seating, dim lighting, and movie theater snacks
+            </p>
+          </div>
+        </div>
+      </section> -->
+
+      <section class="library-filters">
+        <div class="filter-container">
+          <div id="genreFilter" class="custom-select" aria-haspopup="listbox">
+            <button
+              type="button"
+              class="custom-select__button"
+              aria-expanded="false"
+            >
+              <span class="custom-select__label">Genre</span>
+              <span class="custom-select__arrow">▾</span>
+            </button>
+            <ul class="custom-select__list" role="listbox"></ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="library-content">
+        <div id="libraryGallery"></div>
+        <button id="loadMore" class="btn-load-more is-hidden">Load more</button>
+      </section>
+    </main>
+  </body>
+  <script type="module" src="./js/library.js"></script>
+</html>
