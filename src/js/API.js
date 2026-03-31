@@ -53,7 +53,7 @@ export const getMovieVideos = movieId => fetchData(`/movie/${movieId}/videos`);
 
 let genreMapCache = null;
 
-const getGenres = async () => {
+export const getGenres = async () => {
   if (genreMapCache) return genreMapCache;
 
   const data = await fetchData('/genre/movie/list');
@@ -68,4 +68,3 @@ export const convertGenreIdsToNames = async genreIds => {
 
   return genreIds.map(id => genreMap.get(id) || 'Unknown');
 };
-
