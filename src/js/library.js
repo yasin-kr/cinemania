@@ -1,98 +1,16 @@
 import { convertGenreIdsToNames, getGenres } from './api.js';
+import { reportError } from './logger.js';
+import {
+  LIBRARY_ADD_EVENT,
+  LIBRARY_REMOVE_EVENT,
+  readSavedMovies,
+} from './library-storage.js';
 import { showMovieSpotlight } from './movie-spotlight.js';
 import { generateStarIconsMarkup } from './star-icons.js';
+import { hideGlobalLoader, showGlobalLoader } from './ui.js';
 
 // 1. ADIM: MOCK DATA (Görsellerin gelmesi için TMDB yollarını ekledim)
-const mockLibrary = [
-  {
-    id: 1,
-    title: 'Inception',
-    poster_path: '/oYuSwwAIgoIu90QvS9mc7vCq4pZ.jpg',
-    genre_ids: [28, 878],
-    release_date: '2010',
-    vote_average: 8.8,
-  },
-  {
-    id: 2,
-    title: 'Dark Knight',
-    poster_path: '/qJ2tW6WMUDp9BDpSNG6pT6IV9mK.jpg',
-    genre_ids: [28, 80],
-    release_date: '2008',
-    vote_average: 9.0,
-  },
-  {
-    id: 3,
-    title: 'Interstellar',
-    poster_path: '/gEU2QniE6E77NI6vCU6m9i2vQpP.jpg',
-    genre_ids: [12, 18],
-    release_date: '2014',
-    vote_average: 8.6,
-  },
-  {
-    id: 4,
-    title: 'The Matrix',
-    poster_path: '/f89U3Y9SJuCYFJjbbG7asXp996g.jpg',
-    genre_ids: [28, 878],
-    release_date: '1999',
-    vote_average: 8.7,
-  },
-  {
-    id: 5,
-    title: 'Pulp Fiction',
-    poster_path: '/d5iIl9h9btztU0kzUvOvi7tQDPi.jpg',
-    genre_ids: [80, 53],
-    release_date: '1994',
-    vote_average: 8.9,
-  },
-  {
-    id: 6,
-    title: 'Fight Club',
-    poster_path: '/pB8BM79vS9v5FTWDYp9wfI0lhvI.jpg',
-    genre_ids: [18],
-    release_date: '1999',
-    vote_average: 8.8,
-  },
-  {
-    id: 7,
-    title: 'Se7en',
-    poster_path: '/6yog7S6q7nz9C2oUvRk9PZJ1oCl.jpg',
-    genre_ids: [80, 9648],
-    release_date: '1995',
-    vote_average: 8.6,
-  },
-  {
-    id: 8,
-    title: 'Silence of the Lambs',
-    poster_path: '/uS9mY7o97SjTsn90o69gnzYf93n.jpg',
-    genre_ids: [80, 27],
-    release_date: '1991',
-    vote_average: 8.6,
-  },
-  {
-    id: 9,
-    title: 'Gladiator',
-    poster_path: '/ty8TGRSbmVpJsQihqOyrCcobv78.jpg',
-    genre_ids: [28, 12],
-    release_date: '2000',
-    vote_average: 8.5,
-  },
-  {
-    id: 10,
-    title: 'The Lion King',
-    poster_path: '/sKCr7SwwvntZ9Zy9nJsRjmCG81S.jpg',
-    genre_ids: [16, 12],
-    release_date: '1994',
-    vote_average: 8.5,
-  },
-  {
-    id: 11,
-    title: 'The Godfather',
-    poster_path: '/3bhkrj58Vtu7enP5Yq6LJsS7C6n.jpg',
-    genre_ids: [80, 18],
-    release_date: '1972',
-    vote_average: 9.2,
-  },
-];
+const mockLibrary = readSavedMovies();
 
 let allMovies = [];
 let filteredMovies = [];
@@ -104,6 +22,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   const loadMoreBtn = document.getElementById('loadMore');
   const genreSelect = document.getElementById('genreFilter');
   if (!container) return;
+
+  showGlobalLoader();
 
   try {
     allMovies = mockLibrary;
@@ -242,10 +162,40 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // TIKLAMA DİNLEYİCİSİ (Popup için)
     addCardListeners(container);
+    document.addEventListener(LIBRARY_ADD_EVENT, refreshLibraryFromStorage);
+    document.addEventListener(LIBRARY_REMOVE_EVENT, refreshLibraryFromStorage);
   } catch (error) {
-    console.error('Kütüphane yüklenirken hata:', error);
+    reportError('Kütüphane yüklenirken hata:', error);
+  } finally {
+    hideGlobalLoader();
   }
 });
+
+function refreshLibraryFromStorage() {
+  const container = document.getElementById('libraryGallery');
+  const loadMoreBtn = document.getElementById('loadMore');
+
+  if (!container) return;
+
+  allMovies = readSavedMovies();
+  filteredMovies = [...allMovies];
+  currentPage = 1;
+  container.innerHTML = '';
+
+  if (allMovies.length === 0) {
+    loadMoreBtn?.classList.add('is-hidden');
+    container.innerHTML = `
+      <div class="empty-state">
+        <p class="empty-text">OOPS... <br> We are very sorry! <br> You don't have any movies <br> 
+        at your library.</p>
+        <a href="catalog.html" class="btn-search-more">Search Movie</a>
+      </div>
+    `;
+    return;
+  }
+
+  renderLibrarySlice();
+}
 
 async function renderLibrarySlice() {
   const container = document.getElementById('libraryGallery');
@@ -271,7 +221,10 @@ async function renderMovies(moviesList, container, clear = true) {
 
   const markup = await Promise.all(
     moviesList.map(async movie => {
-      const genres = await convertGenreIdsToNames(movie.genre_ids);
+      const genres =
+        movie.genre_names?.length > 0
+          ? movie.genre_names
+          : await convertGenreIdsToNames(movie.genre_ids || []);
       const year = movie.release_date ? movie.release_date.slice(0, 4) : '—';
       const poster = movie.poster_path
         ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
@@ -312,3 +265,8 @@ function addCardListeners(container) {
 
   container.dataset.listenerAttached = 'true';
 }
+
+
+
+
+
