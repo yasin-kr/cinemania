@@ -1,7 +1,36 @@
 /* modern normalize */
 @import url('https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/3.0.1/modern-normalize.min.css');
-/* fonts */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+/* fonts */
+@font-face {
+  font-family: 'Roboto';
+  src:
+    local('Roboto Regular'),
+    local('Roboto');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src:
+    local('Roboto Medium'),
+    local('Roboto');
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src:
+    local('Roboto Bold'),
+    local('Roboto');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
 
 *,
 *::before,

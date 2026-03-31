@@ -1,8 +1,8 @@
 import axios from 'axios';
+import { reportError } from './logger.js';
 
-// CONFIG
-// API anahtarını sabit yazmak yerine .env içinden alıyoruz.
 const API_KEY = import.meta.env.VITE_TMDB_KEY;
+
 export const TMDB_CONFIG_ERROR =
   'TMDB live data is unavailable because VITE_TMDB_KEY is missing.';
 export const hasTmdbKey = () => Boolean(API_KEY);
@@ -12,10 +12,8 @@ const api = axios.create({
   baseURL: 'https://api.themoviedb.org/3',
 });
 
-// GENERIC REQUEST
 const fetchData = async (url, params = {}) => {
   try {
-    // Ortam değişkeni eksikse istek atmadan önce net hata veriyoruz.
     if (!hasTmdbKey()) {
       throw new Error(TMDB_CONFIG_ERROR);
     }
@@ -26,26 +24,22 @@ const fetchData = async (url, params = {}) => {
         ...params,
       },
     });
+
     return response.data;
   } catch (error) {
-    console.error('API ERROR:', error.message);
+    reportError('API ERROR:', error.message);
     throw error;
   }
 };
 
-// TRENDING (day / week)
 export const getTrending = (timeWindow = 'day') =>
   fetchData(`/trending/movie/${timeWindow}`);
 
-// TRENDING PAGED
-// Catalog tarafındaki sayfalama akışı için haftalık trend verisini sayfa parametresiyle çekiyoruz.
 export const getTrendingPaged = (page = 1, timeWindow = 'week') =>
   fetchData(`/trending/movie/${timeWindow}`, { page });
 
-// UPCOMING
 export const getUpcoming = () => fetchData('/movie/upcoming');
 
-// SEARCH
 export const searchMovies = (query, page = 1, year = '') =>
   fetchData('/search/movie', {
     query,
@@ -53,13 +47,10 @@ export const searchMovies = (query, page = 1, year = '') =>
     primary_release_year: year || undefined,
   });
 
-// MOVIE DETAILS
 export const getMovieDetails = movieId => fetchData(`/movie/${movieId}`);
 
-// MOVIE VIDEOS (TRAILER)
 export const getMovieVideos = movieId => fetchData(`/movie/${movieId}/videos`);
 
-// GENRES (CACHE)
 let genreMapCache = null;
 
 const getGenres = async () => {

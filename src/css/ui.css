@@ -1,0 +1,70 @@
+.global-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.global-loader.hidden,
+.scroll-up.hidden {
+  display: none !important;
+}
+
+.global-loader__spinner {
+  width: 52px;
+  height: 52px;
+  border: 4px solid rgba(255, 255, 255, 0.2);
+  border-top-color: #f87719;
+  border-radius: 50%;
+  animation: global-loader-spin 0.8s linear infinite;
+}
+
+.scroll-up {
+  position: fixed;
+  right: 20px;
+  bottom: 24px;
+  z-index: 1200;
+  width: 48px;
+  height: 48px;
+  border: 1px solid rgba(248, 119, 25, 0.5);
+  border-radius: 999px;
+  background: rgba(23, 23, 23, 0.92);
+  color: #f87719;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.22);
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.scroll-up:hover {
+  transform: translateY(-2px);
+  background: #f87719;
+  color: #111111;
+}
+
+body.light-theme .scroll-up {
+  background: rgba(255, 255, 255, 0.94);
+  color: #111111;
+  border-color: rgba(17, 17, 17, 0.16);
+}
+
+body.light-theme .scroll-up:hover {
+  background: #111111;
+  color: #f87719;
+}
+
+@keyframes global-loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

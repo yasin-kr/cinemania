@@ -1,11 +1,14 @@
 import { initHeader } from './header.js';
 import { initHero } from './hero.js';
-import { getTrendingPaged, searchMovies, convertGenreIdsToNames } from './API.js';
+import { getTrendingPaged, searchMovies, convertGenreIdsToNames } from './api.js';
+import { reportError } from './logger.js';
 import { renderMovies } from './card_creator.js';
+import { initGlobalUi } from './ui.js';
 import './footer.js';
 
 // D0m elementleri
 var movieGrid, oopsMessage, pagination, searchForm, searchInput, clearBtn, yearSelect;
+var yearSelectCustom, yearSelectButton, yearSelectLabel, yearSelectList;
 
 // Durum değiskenleri
 var currentPage = 1;
@@ -96,6 +99,64 @@ function getPageRange(current, total) {
   return [1, '...', current - 1, current, current + 1, '...', total];
 }
 
+function toggleYearSelect(open) {
+  if (!yearSelectList || !yearSelectButton) return;
+  yearSelectList.classList.toggle('hide', !open);
+  yearSelectButton.setAttribute('aria-expanded', open ? 'true' : 'false');
+}
+
+function syncYearSelect(value, label) {
+  if (yearSelect) yearSelect.value = value;
+  if (yearSelectLabel) yearSelectLabel.textContent = label;
+  if (yearSelectList) {
+    yearSelectList.querySelectorAll('li').forEach(function(item) {
+      item.classList.toggle('selected', item.dataset.value === String(value));
+    });
+  }
+}
+
+function initYearCustomSelect() {
+  yearSelectCustom = document.getElementById('yearSelectCustom');
+  if (!yearSelectCustom || !yearSelect) return;
+
+  yearSelectButton = yearSelectCustom.querySelector('.custom-select__button');
+  yearSelectLabel = yearSelectCustom.querySelector('.custom-select__label');
+  yearSelectList = yearSelectCustom.querySelector('.custom-select__list');
+
+  if (!yearSelectButton || !yearSelectLabel || !yearSelectList) return;
+
+  yearSelectList.innerHTML = '';
+
+  Array.from(yearSelect.options).forEach(function(option) {
+    var item = document.createElement('li');
+    item.dataset.value = option.value;
+    item.textContent = option.textContent;
+    if (option.value === yearSelect.value) item.classList.add('selected');
+    yearSelectList.appendChild(item);
+  });
+
+  syncYearSelect(yearSelect.value, yearSelect.options[yearSelect.selectedIndex].textContent);
+  toggleYearSelect(false);
+
+  yearSelectButton.addEventListener('click', function() {
+    var isOpen = !yearSelectList.classList.contains('hide');
+    toggleYearSelect(!isOpen);
+  });
+
+  yearSelectList.addEventListener('click', function(e) {
+    var item = e.target.closest('li');
+    if (!item) return;
+    syncYearSelect(item.dataset.value, item.textContent);
+    toggleYearSelect(false);
+  });
+
+  document.addEventListener('click', function(e) {
+    if (!yearSelectCustom.contains(e.target)) {
+      toggleYearSelect(false);
+    }
+  });
+}
+
 // Sayfa değiştir
 function changePage(page) {
   if (page < 1 || page > Math.min(totalPages, 20)) return;
@@ -141,7 +202,7 @@ async function loadTrending(page) {
     buildPagination(currentPage, totalPages);
     scrollToCatalog();
   } catch (err) {
-    console.error('Trend filmler yüklenemedi:', err);
+    reportError('Trend filmler yüklenemedi:', err);
     showOops(true);
   }
 }
@@ -166,7 +227,7 @@ async function loadSearch(query, page, year = '') {
     buildPagination(currentPage, totalPages);
     scrollToCatalog();
   } catch (err) {
-    console.error('Arama başarısız:', err);
+    reportError('Arama başarısız:', err);
     showOops(true);
   }
 }
@@ -174,6 +235,7 @@ async function loadSearch(query, page, year = '') {
 // listenerlar burada 
 
 document.addEventListener('DOMContentLoaded', function () {
+  initGlobalUi();
   initHeader();
   initHero();
 
@@ -194,6 +256,8 @@ document.addEventListener('DOMContentLoaded', function () {
     yearSelect.appendChild(option);
   }
 
+  initYearCustomSelect();
+
   // inputu izle x butonunu hide ya da show yap
   searchInput.addEventListener('input', function() {
     clearBtn.hidden = searchInput.value.trim() === '';
@@ -202,7 +266,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // temizle ve trend filmlere dön
   clearBtn.addEventListener('click', function() {
     searchInput.value = '';
-    yearSelect.value = '';
+    syncYearSelect('', 'Year');
     clearBtn.hidden = true;
     searchInput.focus();
     isSearching = false;
@@ -227,3 +291,5 @@ document.addEventListener('DOMContentLoaded', function () {
   // bismillah 
   loadTrending(1);
 });
+
+
