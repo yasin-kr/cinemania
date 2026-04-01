@@ -26,13 +26,13 @@
   gap: 24px;
   padding: 48px 20px 40px;
   border-radius: 20px;
-  background: #171717;
+  background: var(--surface-dark);
   color: var(--white);
   box-shadow: 0 0 24px rgba(248, 119, 25, 0.28);
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-width: thin;
-  scrollbar-color: rgba(248, 119, 25, 0.7) rgba(255, 255, 255, 0.08);
+  scrollbar-color: var(--scrollbar-thumb) var(--overlay-white-08);
 }
 
 .spotlight-shell::-webkit-scrollbar {
@@ -40,12 +40,12 @@
 }
 
 .spotlight-shell::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--overlay-white-08);
   border-radius: 999px;
 }
 
 .spotlight-shell::-webkit-scrollbar-thumb {
-  background: rgba(248, 119, 25, 0.7);
+  background: var(--scrollbar-thumb);
   border-radius: 999px;
 }
 
@@ -83,7 +83,7 @@
 }
 
 .spotlight-close:hover {
-  color: #f84119;
+  color: var(--orange-deep);
   opacity: 1;
   transform: scale(1.05);
 }
@@ -207,7 +207,7 @@
 
 /* Bilgi satırının sol tarafındaki etiket metni. */
 .spotlight-meta-label {
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-dark-muted);
   font-size: 20px;
   line-height: 1.2;
 }
@@ -249,7 +249,7 @@
 /* ABOUT başlığı. */
 .spotlight-copy-title {
   margin: 0;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-dark-muted);
   font-size: 24px;
   font-weight: 600;
 }
@@ -264,7 +264,7 @@
   overflow-y: auto;
   padding-right: 8px;
   scrollbar-width: thin;
-  scrollbar-color: rgba(248, 119, 25, 0.7) rgba(255, 255, 255, 0.08);
+  scrollbar-color: var(--scrollbar-thumb) var(--overlay-white-08);
 }
 
 .spotlight-overview::-webkit-scrollbar {
@@ -272,12 +272,12 @@
 }
 
 .spotlight-overview::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--overlay-white-08);
   border-radius: 999px;
 }
 
 .spotlight-overview::-webkit-scrollbar-thumb {
-  background: rgba(248, 119, 25, 0.7);
+  background: var(--scrollbar-thumb);
   border-radius: 999px;
 }
 
@@ -445,7 +445,7 @@
     line-height: 1.4;
     overflow-y: auto;
     scrollbar-width: thin;
-    scrollbar-color: rgba(248, 119, 25, 0.7) rgba(255, 255, 255, 0.08);
+    scrollbar-color: var(--scrollbar-thumb) var(--overlay-white-08);
   }
 
   .spotlight-overview::-webkit-scrollbar {
@@ -453,12 +453,12 @@
   }
 
   .spotlight-overview::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--overlay-white-08);
     border-radius: 999px;
   }
 
   .spotlight-overview::-webkit-scrollbar-thumb {
-    background: rgba(248, 119, 25, 0.7);
+    background: var(--scrollbar-thumb);
     border-radius: 999px;
   }
 

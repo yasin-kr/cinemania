@@ -68,6 +68,29 @@ function getRandomMovie(movies) {
   return movies[randomIndex];
 }
 
+function filterMoviesForCurrentMonth(movies) {
+  if (!Array.isArray(movies) || movies.length === 0) return [];
+
+  const today = new Date();
+  const currentYear = today.getFullYear();
+  const currentMonth = today.getMonth();
+
+  return movies.filter(movie => {
+    if (!movie?.release_date) return false;
+
+    const releaseDate = new Date(`${movie.release_date}T00:00:00`);
+
+    if (Number.isNaN(releaseDate.getTime())) {
+      return false;
+    }
+
+    return (
+      releaseDate.getFullYear() === currentYear &&
+      releaseDate.getMonth() === currentMonth
+    );
+  });
+}
+
 function updateUpcomingLibraryButton(buttonEl, movieId) {
   if (!buttonEl || !movieId) return;
 
@@ -190,13 +213,14 @@ async function fetchUpcoming(elements) {
     );
     const data = await res.json();
 
-    const movie = getRandomMovie(data?.results);
+    const monthlyMovies = filterMoviesForCurrentMonth(data?.results);
+    const movie = getRandomMovie(monthlyMovies);
 
     if (!movie) {
       currentUpcomingMovie = null;
       renderUpcomingStatus(
         elements,
-        'No upcoming movie is available right now.'
+        'No upcoming movie is available for this month right now.'
       );
       return;
     }

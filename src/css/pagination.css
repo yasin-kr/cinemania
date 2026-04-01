@@ -19,7 +19,7 @@
   border-radius: 50%;
   color: var(--grey);
   font-size: 13px;
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--font-family-base);
   cursor: pointer;
   display: flex;
   align-items: center;

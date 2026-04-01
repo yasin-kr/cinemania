@@ -34,7 +34,7 @@
   padding: 0 16px;
   color: var(--white);
   font-size: 14px;
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--font-family-base);
   height: 100%;
 }
 
@@ -91,11 +91,11 @@
 .searcher .custom-select__button:focus,
 .searcher .custom-select__button:hover {
   outline: none;
-  border-color: #ff6b01;
+  border-color: var(--orange);
 }
 
 .searcher .custom-select__button[aria-expanded='true'] {
-  border-color: #ff6b01;
+  border-color: var(--orange);
   box-shadow: 0 0 0 1px rgba(248, 119, 25, 0.18);
 }
 
@@ -106,7 +106,7 @@
 .searcher .custom-select__arrow {
   margin-left: 12px;
   font-size: 18px;
-  color: #fff;
+  color: var(--white);
 }
 
 .searcher .custom-select__list {
@@ -126,7 +126,7 @@
   z-index: 50;
   box-sizing: border-box;
   scrollbar-width: thin;
-  scrollbar-color: rgba(248, 119, 25, 0.7) rgba(255, 255, 255, 0.08);
+  scrollbar-color: var(--scrollbar-thumb) var(--overlay-white-08);
 }
 
 .searcher .custom-select__list::-webkit-scrollbar {
@@ -134,12 +134,12 @@
 }
 
 .searcher .custom-select__list::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--overlay-white-08);
   border-radius: 999px;
 }
 
 .searcher .custom-select__list::-webkit-scrollbar-thumb {
-  background: rgba(248, 119, 25, 0.7);
+  background: var(--scrollbar-thumb);
   border-radius: 999px;
 }
 
@@ -149,7 +149,7 @@
 
 .searcher .custom-select__list li {
   padding: 16px 20px;
-  color: #fff;
+  color: var(--white);
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
@@ -161,12 +161,12 @@
 }
 
 .searcher .custom-select__list li:hover {
-  color: #ff6b01;
+  color: var(--orange);
   transform: scale(1.02);
 }
 
 .searcher .custom-select__list li.selected {
-  color: #ff6b01;
+  color: var(--orange);
   transform: scale(1.03);
 }
 
