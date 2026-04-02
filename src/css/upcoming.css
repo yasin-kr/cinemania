@@ -6,9 +6,9 @@
   display: none !important;
 }
 
-/* Upcoming bölümünü sayfanın genel container düzeniyle hizalamak için scoped padding kullanıyoruz. */
+
 .upcoming .container {
-  /* Mobile'da upcoming basligi ve kartini weekly ile ayni merkez kolonda topluyoruz. */
+
   padding-left: 16px;
   padding-right: 16px;
 }
@@ -33,7 +33,6 @@
   line-height: 1.43;
 }
 
-/* Mobile'da tek kolon, büyük ekranlarda iki kolonlu figma düzenine geçiyoruz. */
 .upcoming__wrapper {
   display: grid;
   gap: 24px;
@@ -115,7 +114,7 @@
   color: var(--white);
 }
 
-/* Release date degerini tasarimdaki vurguya uydurmak icin turuncu renkte gosteriyoruz. */
+
 .upcoming-date {
   color: var(--orange) !important;
 }
@@ -258,7 +257,7 @@
     padding-bottom: 96px;
   }
 
-  /* Desktop'ta weekly ile aynı yatay hizayı yakalamak için ekstra iç padding'i kaldırıyoruz. */
+
   .upcoming .container {
     padding-left: 0;
     padding-right: 0;
