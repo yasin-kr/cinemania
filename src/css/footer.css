@@ -1,6 +1,3 @@
-
-
-/* Mobil */
 .footer {
   background-color: var(--background);
   padding: 20px 0;
@@ -36,7 +33,7 @@
   color: var(--white);
 }
 
-/* Modal overlay — tüm boyutlarda aynı */
+/* Modal overlay */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -52,7 +49,7 @@
   display: none !important;
 }
 
-/* Modal kutusu */
+/* Modal box */
 .modal {
   position: relative;
   background-color: var(--secondary-black);
@@ -117,7 +114,6 @@
   margin-bottom: 20px;
 }
 
-/* Ekip listesi bunun stili degiscek simdilik boyle duz tema stili devam*/
 .team-list {
   display: flex;
   flex-direction: column;
@@ -184,7 +180,6 @@
   color: var(--orange);
 }
 
-/* tablet */
 @media only screen and (min-width: 768px) {
   .footer {
     padding: 24px 0;
@@ -237,7 +232,6 @@
   }
 }
 
-/* dsktop */
 @media only screen and (min-width: 1280px) {
   .footer {
     padding: 28px 0;

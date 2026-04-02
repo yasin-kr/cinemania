@@ -300,7 +300,7 @@
     background-color 0.28s ease;
 }
 
-/* Düğmenin üzerinde aktif moda ait ikonu göstererek glass toggle hissini kuvvetlendiriyoruz. */
+
 .toggle-thumb::before {
   background-color: rgba(255, 255, 255, 0.92);
   -webkit-mask: url('../img/moon.svg') center / contain no-repeat;
@@ -395,7 +395,6 @@ body.light-theme .theme-toggle:not(.active) .moon {
   opacity: 0;
 }
 
-/* Light mode aktifken soldaki ay ikonunu koyu tonda hafif ama net gorunur tutuyoruz. */
 body.light-theme .theme-toggle.active .moon {
   opacity: 0.7;
   filter: brightness(0) saturate(100%);

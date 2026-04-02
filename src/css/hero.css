@@ -79,7 +79,6 @@
   gap: 6px;
   margin-bottom: 16px;
   color: transparent;
-  /* yazı girişi yok */
 }
 
 .hero__rating .hero__star {
@@ -123,7 +122,6 @@
   }
 
   .hero .container {
-    /* Tablet gorunumunde hero metnini figmadaki gibi soldan iceride konumlandiriyoruz. */
     padding-left: 32px;
     padding-top: 62px;
   }
@@ -183,7 +181,7 @@
   }
 }
 
-/* ####################btn######################## */
+/* Button */
 
 .btn {
   display: inline-flex;

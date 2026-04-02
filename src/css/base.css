@@ -40,7 +40,7 @@ body {
   overflow-x: clip;
 }
 
-/* Light theme'de genel yuzeyleri acip sadece hero ve kart overlay metinlerini oldugu gibi birakiyoruz. */
+/* Light theme */
 body.light-theme {
   background-color: var(--white);
   color: var(--background);
@@ -134,12 +134,10 @@ body.light-theme .movie-card__title {
   color: var(--background);
 }
 
-/* Weekly kartlarindaki aciklama metnini tema degisiminde de gorsel ustunde okunur acik renkte tutuyoruz. */
 body.light-theme .weekly-trends .movie-info p {
   color: var(--text-dark-soft);
 }
 
-/* Catalog kartlarinda da metin gorsel ustundeki koyu overlay icinde kaldigi icin acik renkte kalmali. */
 body.light-theme .catalog-section .movie-card__title,
 body.light-theme .catalog-section .movie-card__meta,
 body.light-theme .catalog-section .movie-card__genre,

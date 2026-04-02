@@ -1,9 +1,7 @@
-/* Modal açıkken arka plandaki sayfanın scroll olmasını engeller. */
 .spotlight-open {
   overflow: hidden;
 }
 
-/* Ekranı kaplayan yarı saydam arka plan katmanı. */
 .spotlight-backdrop {
   position: fixed;
   inset: 0;
@@ -16,7 +14,6 @@
   overflow: hidden;
 }
 
-/* Modalın ana kutusu; poster ve içerik bu alan içinde yer alır. */
 .spotlight-shell {
   --spotlight-shell-width: 846px;
   position: relative;
@@ -49,7 +46,7 @@
   border-radius: 999px;
 }
 
-/* Sağ üstteki kapatma butonu. */
+/* Close button. */
 .spotlight-close {
   position: absolute;
   top: 18px;
@@ -88,13 +85,13 @@
   transform: scale(1.05);
 }
 
-/* Poster alanında taşmayı gizler ve köşe yuvarlaklığını korur. */
+
 .spotlight-poster-wrap {
   overflow: hidden;
   border-radius: 8px;
 }
 
-/* Film afişinin modal içindeki görünümünü ayarlar. */
+
 .spotlight-poster {
   width: 100%;
   display: block;
@@ -102,14 +99,14 @@
   object-fit: cover;
 }
 
-/* Sağ taraftaki metin ve buton alanlarının düzeni. */
+
 .spotlight-content {
   display: grid;
   align-content: start;
   gap: 20px;
 }
 
-/* Trailer popup'ı detay popup ile aynı dış genişlik referansını kullanır. */
+
 .spotlight-shell--trailer {
   width: min(100%, var(--spotlight-shell-width));
   grid-template-columns: 1fr;
@@ -120,14 +117,14 @@
   padding: 48px 20px 40px;
 }
 
-/* Trailer içeriğini tek kolonlu ve ortalı tutuyoruz. */
+
 .spotlight-content--trailer {
   width: 100%;
   display: grid;
   place-items: center;
 }
 
-/* Video kutusunu popup içinde büyütüp ortada sabitliyoruz. */
+
 .spotlight-trailer-frame-wrap {
   width: 100%;
   max-width: 720px;
@@ -184,20 +181,20 @@
   object-fit: contain;
 }
 
-/* Film başlığı. */
+
 .spotlight-title {
   margin: 0;
   font-size: 24px;
   line-height: 1.16;
 }
 
-/* Vote / Votes / Popularity / Genre bilgilerinin kapsayıcısı. */
+/* Vote / Votes / Popularity / Genre */
 .spotlight-meta {
   display: grid;
   gap: 12px;
 }
 
-/* Her bilgi satırında etiket ve değeri iki kolon halinde dizer. */
+
 .spotlight-meta-row {
   display: grid;
   grid-template-columns: 124px 1fr;
@@ -205,21 +202,19 @@
   gap: 8px 20px;
 }
 
-/* Bilgi satırının sol tarafındaki etiket metni. */
 .spotlight-meta-label {
   color: var(--text-dark-muted);
   font-size: 20px;
   line-height: 1.2;
 }
 
-/* Bilgi satırının sağ tarafındaki değer metni. */
 .spotlight-meta-value {
   color: var(--white);
   font-size: 20px;
   line-height: 1.2;
 }
 
-/* Vote ve vote count için beyaz arka planlı kutucuk görünümü. */
+
 .spotlight-vote-pill {
   display: inline-flex;
   align-items: center;
@@ -233,20 +228,20 @@
   font-weight: 600;
 }
 
-/* Vote kutucukları arasındaki ayırıcı slash karakteri. */
+
 .spotlight-vote-separator {
   margin: 0 8px;
   color: var(--white);
   font-size: 20px;
 }
 
-/* ABOUT başlığı ve açıklama metnini birlikte tutar. */
+
 .spotlight-copy-block {
   display: grid;
   gap: 16px;
 }
 
-/* ABOUT başlığı. */
+
 .spotlight-copy-title {
   margin: 0;
   color: var(--text-dark-muted);
@@ -254,7 +249,7 @@
   font-weight: 600;
 }
 
-/* Film açıklama metni. */
+
 .spotlight-overview {
   margin: 0;
   color: var(--white);
@@ -281,7 +276,7 @@
   border-radius: 999px;
 }
 
-/* Add to my library butonunun temel görünümü. */
+/* Add to my library */
 .spotlight-library-button {
   width: fit-content;
   min-width: 170px;
@@ -304,7 +299,6 @@
     opacity 0.2s ease;
 }
 
-/* Hover anında butona dolu görünüm verir. */
 .spotlight-library-button--add {
   background: transparent;
   color: var(--white);
@@ -340,9 +334,8 @@
     0 2px 6px rgba(0, 0, 0, 0.14);
 }
 
-/* Tablet ve üstünde modalı iki kolonlu yapıya geçirir. */
+/* Tablet */
 @media screen and (min-width: 768px) {
-  /* Detay popup'ı tablet ve üstünde iki kolonlu çalışır. */
   .spotlight-shell:not(.spotlight-shell--trailer) {
     grid-template-columns: minmax(280px, 375px) 1fr;
     align-items: start;
@@ -350,7 +343,7 @@
     padding: 52px 24px 40px;
   }
 
-  /* Trailer popup'ı ise aynı breakpoint'te tek kolonlu kalır. */
+ 
   .spotlight-shell--trailer {
     grid-template-columns: 1fr;
     align-items: center;
@@ -363,7 +356,7 @@
 }
 
 @media screen and (max-width: 767px) {
-  /* Mobile gorunumde detay popup'ini figmadaki gibi dar ve ekrana sigan bir kolonda tutuyoruz. */
+  
   .spotlight-backdrop {
     align-items: flex-start;
     padding: 12px;
