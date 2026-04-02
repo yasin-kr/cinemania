@@ -1,4 +1,9 @@
-import { getApiKey, hasTmdbKey, TMDB_CONFIG_ERROR } from './api.js';
+import {
+  getGenres,
+  getUpcoming,
+  hasTmdbKey,
+  TMDB_CONFIG_ERROR,
+} from './api.js';
 import { reportError } from './logger.js';
 import {
   isMovieSaved,
@@ -8,7 +13,6 @@ import {
   saveMovieToLibrary,
 } from './library-storage.js';
 
-const BASE_URL = 'https://api.themoviedb.org/3';
 function getUpcomingImageBaseUrl() {
   if (window.innerWidth >= 1280) {
     return 'https://image.tmdb.org/t/p/w1280';
@@ -39,7 +43,7 @@ function buildVoteMarkup(voteAverage, voteCount) {
   `;
 }
 
-// Upcoming bölümü sadece ilgili elemanlar varsa çalışsın diye DOM referanslarını tek yerden topluyoruz.
+// Upcoming bolumu sadece ilgili elemanlar varsa calissin diye DOM referanslarini tek yerden topluyoruz.
 function getUpcomingElements() {
   return {
     sectionEl: document.querySelector('.upcoming'),
@@ -183,19 +187,8 @@ function bindUpcomingLibrarySync(elements) {
 
 async function fetchGenres() {
   try {
-    // Upcoming akışı da ortak .env anahtarını kullanıyor.
-    if (!hasTmdbKey()) {
-      throw new Error(TMDB_CONFIG_ERROR);
-    }
-
-    const res = await fetch(
-      `${BASE_URL}/genre/movie/list?api_key=${getApiKey()}`
-    );
-    const data = await res.json();
-
-    data.genres.forEach(g => {
-      genresMap[g.id] = g.name;
-    });
+    const genreMap = await getGenres();
+    genresMap = Object.fromEntries(genreMap);
   } catch (error) {
     reportError('Genres error:', error);
   }
@@ -203,15 +196,7 @@ async function fetchGenres() {
 
 async function fetchUpcoming(elements) {
   try {
-    // Anahtar eksikse burada da sessiz bozulma yerine görünür hata veriyoruz.
-    if (!hasTmdbKey()) {
-      throw new Error(TMDB_CONFIG_ERROR);
-    }
-
-    const res = await fetch(
-      `${BASE_URL}/movie/upcoming?api_key=${getApiKey()}`
-    );
-    const data = await res.json();
+    const data = await getUpcoming();
 
     const monthlyMovies = filterMoviesForCurrentMonth(data?.results);
     const movie = getRandomMovie(monthlyMovies);
@@ -270,7 +255,7 @@ async function fetchUpcoming(elements) {
 export async function initUpcoming() {
   const elements = getUpcomingElements();
 
-  // Bölüm ilgili sayfada yoksa script hiçbir şey yapmadan çıkar.
+  // Bolum ilgili sayfada yoksa script hicbir sey yapmadan cikar.
   if (!elements.sectionEl) {
     return;
   }

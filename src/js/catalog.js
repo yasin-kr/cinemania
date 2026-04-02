@@ -238,10 +238,9 @@ async function loadSearch(query, page, year = '') {
   }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+async function bootstrapCatalogPage() {
   initGlobalUi();
   initHeader();
-  initHero();
 
   movieGrid = document.getElementById('movieGrid');
   oopsMessage = document.getElementById('oopsMessage');
@@ -288,5 +287,9 @@ document.addEventListener('DOMContentLoaded', function () {
     loadSearch(query, 1, year);
   });
 
-  loadTrending(1);
+  await Promise.allSettled([initHero(), loadTrending(1)]);
+}
+
+document.addEventListener('DOMContentLoaded', bootstrapCatalogPage, {
+  once: true,
 });
